@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "reception": {
+        "date": "2023-05-25",
+        "id": "1",
+        "diagnosis": "J32.9 Хронический синусит неуточненный",
+        "status": "standart"
+      },
+      "doctor": {
+        "specialization": "otolaringology",
+        "name": "Тараканчиков Димасик Бобинчиков",
+        "id": "123"
+      },
+      "appointment": {
+        "research": ["standard", "missing", "possible", "excess"],
+        "count": 4
+      }
+    },
+    {
+      "reception": {
+        "date": "24-01-2023",
+        "id": "2",
+        "diagnosis": "Диагноз cовсем другой",
+        "status": "porQuality"
+      },
+      "doctor": {
+        "specialization": "cardiology",
+        "name": "Вареников П.А.",
+        "id": "var_1"
+      },
+      "appointment": {
+        "research": ["missing", "possible", "excess"],
+        "count": 3
+      }
+    },
+    {
+      "reception": {
+        "date": "25-01-2023",
+        "id": "3",
+        "diagnosis": "Артериальная дистомия",
+        "status": "suboptimal"
+      },
+      "doctor": {
+        "specialization": "neurology",
+        "name": "Накорякина В.Я.",
+        "id": "nak_9"
+      },
+      "appointment": {
+        "research": ["missing", "excess"],
+        "count": 2
+      }
+    }
+  ],
+  "totalSize": 10,
+  "limit": 10,
+  "offset": 0
+}
