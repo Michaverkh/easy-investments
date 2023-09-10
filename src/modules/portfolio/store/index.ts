@@ -1,8 +1,8 @@
-import { action, makeObservable, observable } from "mobx";
-import { IPortfolioStore } from "./interfaces";
+import { action, computed, makeObservable, observable } from "mobx";
+import { IAssetsItems, IPortfolioStore } from "./interfaces";
 
 export class PortfolioStore implements IPortfolioStore {
-  _assetsTree = ["1", "2"];
+  _assetsTree: IAssetsItems[] = [];
 
   get assetsTree() {
     return this._assetsTree;
@@ -12,13 +12,13 @@ export class PortfolioStore implements IPortfolioStore {
     makeObservable<IPortfolioStore, "_assetsTree">(this, {
       _assetsTree: observable,
 
+      assetsTree: computed,
+
       addCathegory: action.bound,
       addAsset: action.bound,
     });
   }
 
-  addCathegory(item: string) {
-    this._assetsTree.push(item);
-  }
+  addCathegory() {}
   addAsset() {}
 }

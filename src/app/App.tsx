@@ -6,14 +6,9 @@ import { observer } from "mobx-react-lite";
 const App = () => {
   const store = useStore();
 
-  console.log(store.portfolioStore.assetsTree);
-
   return (
     <div>
       <p>My app</p>
-      <Button onClick={() => store.portfolioStore.addCathegory("s")}>
-        Пуньк
-      </Button>
     </div>
   );
 };

@@ -1,0 +1,105 @@
+{
+  "items": [
+    {
+      "type": "cathegory",
+      "name": "Фондовый рынок",
+      "valueInPortfolio": "1000000",
+      "factualShare": "36",
+      "targetShare": "33.4",
+      "children": [
+        {
+          "type": "cathegory",
+          "name": "акции",
+          "valueInPortfolio": "849849",
+          "factualShare": "89",
+          "targetShare": "50",
+          "children": [
+            {
+              "type": "assets",
+              "name": "СБЕР",
+              "valueInPortfolio": "1561",
+              "factualShare": "2",
+              "targetShare": "3"
+            },
+            {
+              "type": "assets",
+              "name": "apple",
+              "valueInPortfolio": "654564",
+              "factualShare": "7",
+              "targetShare": "8.5"
+            }
+          ]
+        },
+        {
+          "type": "cathegory",
+          "name": "облигации",
+          "valueInPortfolio": "849849",
+          "factualShare": "89",
+          "targetShare": "50",
+          "children": [
+            {
+              "type": "assets",
+              "name": "СБЕР",
+              "valueInPortfolio": "1561",
+              "factualShare": "2",
+              "targetShare": "3"
+            },
+            {
+              "type": "assets",
+              "name": "apple",
+              "valueInPortfolio": "654564",
+              "factualShare": "7",
+              "targetShare": "8.5"
+            },
+            {
+              "type": "assets",
+              "name": "ОФЗ",
+              "valueInPortfolio": "151651",
+              "factualShare": "7",
+              "targetShare": "8.5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "cathegory",
+      "name": "Недвижимость",
+      "valueInPortfolio": "10000000",
+      "factualShare": "12",
+      "targetShare": "11.2",
+      "children": [
+        {
+          "type": "assets",
+          "name": "Хата на арбате",
+          "valueInPortfolio": "20654777",
+          "factualShare": "89",
+          "targetShare": "50"
+        }
+      ]
+    },
+    {
+      "type": "cathegory",
+      "name": "Криптовалюта",
+      "valueInPortfolio": "50648",
+      "factualShare": "6",
+      "targetShare": "9.8",
+      "children": [
+        {
+          "type": "assets",
+          "name": "Bitcoin",
+          "valueInPortfolio": "82145",
+          "factualShare": "44",
+          "targetShare": "16"
+        },
+        {
+          "type": "assets",
+          "name": "Etherium",
+          "valueInPortfolio": "156161",
+          "factualShare": "65",
+          "targetShare": "0"
+        }
+      ]
+    }
+  ]
+}
