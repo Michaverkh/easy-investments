@@ -3,18 +3,23 @@ export enum EAssetsType {
   ASSETS = "assets",
 }
 
-export interface IAssetsItems {
+export interface IAssetsItem {
   type: EAssetsType;
   name: string;
   valueInPortfolio: number;
   factualShare: number;
   targetShare: number;
   paymentPerMonth?: number;
-  children?: IAssetsItems[];
+  parent?: string;
+}
+
+export interface IAssetsItems {
+  items: IAssetsItem[];
 }
 
 export interface IPortfolioStore {
-  assetsTree: IAssetsItems[];
+  assetsTree: IAssetsItem[];
   addCathegory: () => void;
   addAsset: () => void;
+  loadAssetsTree: () => Promise<void>;
 }

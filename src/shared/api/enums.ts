@@ -1,5 +1,5 @@
 export enum EEndpoints {
-  GET_RECEPTIONS_LIST = "assetsTree/info",
+  GET_ASSETS_INFO = "assetsTree/info",
 }
 
 export enum EHttpMethods {

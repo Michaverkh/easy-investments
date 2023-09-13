@@ -1,7 +1,7 @@
 import React from "react";
 import useStore from "../shared/hooks/useStore";
-import { Button } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import { PortfolioPage } from "../modules/portfolio/ui";
 
 const App = () => {
   const store = useStore();
@@ -9,6 +9,7 @@ const App = () => {
   return (
     <div>
       <p>My app</p>
+      <PortfolioPage />
     </div>
   );
 };

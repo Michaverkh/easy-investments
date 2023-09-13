@@ -1,8 +1,8 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { IAssetsItems, IPortfolioStore } from "./interfaces";
+import { IAssetsItem, IPortfolioStore } from "./interfaces";
 
 export class PortfolioStore implements IPortfolioStore {
-  _assetsTree: IAssetsItems[] = [];
+  _assetsTree: IAssetsItem[] = [];
 
   get assetsTree() {
     return this._assetsTree;
@@ -17,6 +17,10 @@ export class PortfolioStore implements IPortfolioStore {
       addCathegory: action.bound,
       addAsset: action.bound,
     });
+  }
+
+  async loadAssetsTree(): Promise<void> {
+    //EEndpoints.GET_ASSETS_INFO
   }
 
   addCathegory() {}
