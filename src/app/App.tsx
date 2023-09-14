@@ -1,7 +1,7 @@
 import React from "react";
 import useStore from "../shared/hooks/useStore";
 import { observer } from "mobx-react-lite";
-import { PortfolioPage } from "../modules/portfolio/ui";
+import PortfolioPage from "../modules/portfolio/ui/index";
 
 const App = () => {
   const store = useStore();

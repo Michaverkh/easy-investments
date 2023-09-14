@@ -7,7 +7,7 @@ export const assetsItemResponseSchema = object({
   factualShare: number().notRequired().default(0),
   targetShare: number().notRequired().default(0),
   paymentPerMonth: number().optional(),
-  parent: number().optional(),
+  parent: string().optional(),
 });
 
 export const assetsItemsResponseSchema = object({

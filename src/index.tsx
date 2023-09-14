@@ -5,6 +5,15 @@ import App from "./app/App";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Store } from "./shared/store";
 import { theme } from "./app/themes/theme";
+import ApiService from "./shared/api/apiService";
+
+if (process.env.NODE_ENV === "development") {
+  const { worker } = require("./mocks/browser");
+  worker.start();
+}
+
+export const baseUrl = process.env.REACT_APP_API_URI || "";
+export const apiModule = new ApiService(baseUrl);
 
 const store = new Store();
 export const StoreContext = createContext(store);
