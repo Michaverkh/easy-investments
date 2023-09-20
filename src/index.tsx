@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import ReactDOM from "react-dom/client";
 import "./app/index.css";
-import App from "./app/App";
+import { App } from "./app/App";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Store } from "./shared/store";
 import { theme } from "./app/themes/theme";

@@ -1,17 +1,37 @@
 import React from "react";
-import useStore from "../shared/hooks/useStore";
-import { observer } from "mobx-react-lite";
 import PortfolioPage from "../modules/portfolio/ui/index";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Box } from "@mui/material";
+import { AppHeader } from "./components/AppHeader";
+import { RoterPath } from "../shared/router/enums";
+import { CalculatorPage } from "../modules/calculator/ui";
+import { AppFooter } from "./components/AppFooter";
 
-const App = () => {
-  const store = useStore();
-
-  return (
-    <div>
-      <p>My app</p>
-      <PortfolioPage />
-    </div>
-  );
+const appWrapper = {
+  height: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 };
 
-export default observer(App);
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Box sx={appWrapper}>
+        <AppHeader />
+        <Box
+          sx={{
+            flexGrow: "1",
+            padding: "16px",
+          }}
+        >
+          <Routes>
+            <Route path={RoterPath.PORTFOLIO} element={<PortfolioPage />} />
+            <Route path={RoterPath.CALCULATOR} element={<CalculatorPage />} />
+          </Routes>
+        </Box>
+        <AppFooter />
+      </Box>
+    </BrowserRouter>
+  );
+};

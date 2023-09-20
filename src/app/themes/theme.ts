@@ -1,5 +1,13 @@
 import { createTheme } from "@mui/material";
-import { DARK1, FLAME1, LIGHT1, SKY1, MOUNTAIN4, MOUNTAIN1 } from "./colors";
+import {
+  DARK1,
+  FLAME1,
+  LIGHT1,
+  SKY1,
+  MOUNTAIN4,
+  MOUNTAIN1,
+  SKY2,
+} from "./colors";
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
@@ -17,7 +25,7 @@ export const theme = createTheme({
       main: SKY1,
     },
     info: {
-      main: LIGHT1,
+      main: SKY2,
     },
   },
 
