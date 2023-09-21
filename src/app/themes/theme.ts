@@ -19,7 +19,7 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: DARK1,
-      light: MOUNTAIN4,
+      light: LIGHT1,
     },
     secondary: {
       main: SKY1,

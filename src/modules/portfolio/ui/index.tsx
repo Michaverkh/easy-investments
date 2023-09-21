@@ -27,6 +27,7 @@ const PortfolioPage: FC = () => {
           valueInPortfolio={100}
           factualShare={100}
           targetShare={100}
+          paymentPerMonth={2000}
         />
       </Box>
     </Box>
