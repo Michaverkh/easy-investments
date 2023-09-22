@@ -14,7 +14,9 @@ import { AssetsParam } from "../AssetsParam";
   parent?: string;
 */
 
-interface IProps extends IAssetsItem {}
+interface IProps extends IAssetsItem {
+  children?: IProps[];
+}
 
 export const AssetsItem: FC<IProps> = ({
   type,
@@ -23,8 +25,9 @@ export const AssetsItem: FC<IProps> = ({
   factualShare,
   targetShare,
   paymentPerMonth,
+  children,
 }) => {
-  const isAsets: boolean = type === EAssetsType.ASSETS;
+  const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
 
   const assetsItemHeader = {
@@ -34,33 +37,50 @@ export const AssetsItem: FC<IProps> = ({
   };
 
   const assetsItemBody = {
+    display: isAssets ? "flex" : "block",
     "& > div:not(:last-child)": {
       marginBottom: "10px",
     },
   };
 
   return (
-    <Box
-      sx={{
-        width: "500px",
-        display: isAsets ? "flex" : "block",
-        backgroundColor: theme.palette.secondary.main,
-        borderRadius: "10px",
-        padding: "16px",
-      }}
-    >
-      <Box sx={assetsItemHeader}>
-        <Typography>{name}</Typography>
-        {!isAsets && <AddIcon />}
+    <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          // width: "500px",
+          display: isAssets ? "flex" : "block",
+          backgroundColor: theme.palette.secondary.main,
+          borderRadius: "10px",
+          padding: "16px",
+          marginRight: "10px",
+        }}
+      >
+        <Box sx={assetsItemHeader}>
+          <Typography>{name}</Typography>
+          {!isAssets && <AddIcon />}
+        </Box>
+        <Box sx={assetsItemBody}>
+          <AssetsParam valueName="объем в портфеле" value={valueInPortfolio} />
+          <AssetsParam valueName="доля в портфеле" value={factualShare} />
+          <AssetsParam valueName="целевая доля" value={targetShare} />
+          {paymentPerMonth && (
+            <AssetsParam valueName="взнос" value={paymentPerMonth} />
+          )}
+        </Box>
       </Box>
-      <Box sx={assetsItemBody}>
-        <AssetsParam valueName="объем в портфеле" value={valueInPortfolio} />
-        <AssetsParam valueName="доля в портфеле" value={factualShare} />
-        <AssetsParam valueName="целевая доля" value={targetShare} />
-        {paymentPerMonth && (
-          <AssetsParam valueName="взнос" value={paymentPerMonth} />
-        )}
-      </Box>
+      {children && (
+        <Box
+          sx={{
+            "& > *:not(:last-child)": {
+              marginBottom: "10px",
+            },
+          }}
+        >
+          {children.map((child) => {
+            return <AssetsItem key={child.name} {...child} />;
+          })}
+        </Box>
+      )}
     </Box>
   );
 };
