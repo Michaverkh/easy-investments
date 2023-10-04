@@ -20,7 +20,7 @@ export interface IAssetsItems {
 export interface IPortfolioStore {
   assetsTree: IAssetsItem[];
   isLoading: boolean;
-  addCathegory: () => void;
+  addCategory: () => void;
   addAsset: () => void;
   loadAssetsTree: () => Promise<void>;
 }

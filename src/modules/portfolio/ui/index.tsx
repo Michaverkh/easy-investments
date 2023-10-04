@@ -1,39 +1,14 @@
 import { FC, useEffect, useMemo } from "react";
 import useStore from "../../../shared/hooks/useStore";
 import { observer } from "mobx-react-lite";
-import { Box } from "@mui/material";
-import { IAssetsItem } from "../store/interfaces";
+import { Box, CircularProgress } from "@mui/material";
 import { AssetsItem } from "./components/AssetsItem.tsx";
-
-interface IAssetsItemWithChildren extends IAssetsItem {
-  children?: IAssetsItemWithChildren[];
-}
-
-const getAssetsWithChildren = (
-  assets: IAssetsItemWithChildren[]
-): IAssetsItemWithChildren[] => {
-  assets.forEach((asset) => {
-    if (asset.parent) {
-      const targetItem = assets.find((item) => item.name === asset.parent);
-
-      if (targetItem) {
-        targetItem.children = targetItem.children || [];
-        if (
-          targetItem.children.findIndex((item) => item.name === asset.name) ===
-          -1
-        ) {
-          targetItem.children.push(asset);
-        }
-      }
-    }
-  });
-
-  return assets;
-};
+import { getAssetsWithChildren } from "./utils";
+import { MOUNTAIN2 } from "../../../app/themes/colors";
 
 const PortfolioPage: FC = () => {
   const { portfolioStore } = useStore();
-  const { assetsTree } = portfolioStore;
+  const { assetsTree, isLoading } = portfolioStore;
 
   useEffect(() => {
     async function getData() {
@@ -47,18 +22,46 @@ const PortfolioPage: FC = () => {
     [assetsTree]
   );
 
+  const portfolioPage = {
+    display: "grid",
+    gridTemplateColumns: "1fr 3fr",
+    gap: "16px",
+    height: "100%",
+  };
+
   return (
-    <Box sx={{ display: "grid", gridTemplateColumns: "1fr 3fr", gap: "16px" }}>
+    <Box sx={portfolioPage}>
       <Box></Box>
       <Box
         sx={{
-          "& > *:not(:last-child)": {
-            marginBottom: "10px",
-          },
+          border: `5px solid	${MOUNTAIN2}`,
+          borderRadius: "20px",
+          padding: "16px",
         }}
       >
-        {updatedAssets.map(
-          (asset) => !asset.parent && <AssetsItem key={asset.name} {...asset} />
+        <Box
+          sx={{
+            "& > *:not(:last-child)": {
+              marginBottom: "10px",
+            },
+          }}
+        >
+          {updatedAssets.map(
+            (asset) =>
+              !asset.parent && <AssetsItem key={asset.name} {...asset} />
+          )}
+        </Box>
+        {isLoading && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <CircularProgress />
+          </Box>
         )}
       </Box>
     </Box>
@@ -66,3 +69,46 @@ const PortfolioPage: FC = () => {
 };
 
 export default observer(PortfolioPage);
+
+/*
+Старая реализация с общим редактированием
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            marginBottom: "16px",
+          }}
+        >
+          {isEdit ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "end",
+                "& > *:not(:last-child)": {
+                  marginRight: "16px",
+                },
+              }}
+            >
+              <Button
+                variant="contained"
+                color="info"
+                onClick={handleSaveChanges}
+              >
+                Сохранить
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleCancel}
+              >
+                Отменить
+              </Button>
+            </Box>
+          ) : (
+            <Button variant="contained" onClick={handleEdit}>
+              Редактировать
+            </Button>
+          )}
+        </Box>
+*/

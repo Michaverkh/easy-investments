@@ -7,6 +7,8 @@ import {
   MOUNTAIN4,
   MOUNTAIN1,
   SKY2,
+  FOREST2,
+  FLAME2,
 } from "./colors";
 
 declare module "@mui/material/Button" {
@@ -38,16 +40,17 @@ export const theme = createTheme({
     h2: {
       fontSize: 20,
       fontWeight: "bold",
-      color: SKY1,
+      color: DARK1,
     },
     h3: {
       fontSize: 20,
       fontWeight: "500",
     },
-    h4: { fontSize: 16, fontWeight: "400", color: MOUNTAIN1 },
-    h5: { fontSize: 14, fontWeight: "400", color: MOUNTAIN1 },
-    h6: { fontSize: 14, fontWeight: "400", color: FLAME1 },
-    body1: { fontSize: 16 },
+    h4: { fontSize: 16, fontWeight: "400", color: DARK1 },
+    h5: { fontSize: 14, fontWeight: "400", color: DARK1 },
+    h6: { fontSize: 16, fontWeight: "bold", color: DARK1 },
+    body1: { fontSize: 14, fontWeight: "bold", color: DARK1 },
+    body2: { fontSize: 12, color: LIGHT1 },
   },
   components: {
     MuiTypography: {
@@ -65,18 +68,24 @@ export const theme = createTheme({
     MuiButton: {
       variants: [
         {
-          props: { variant: "dashed" },
+          props: { variant: "contained" },
           style: {
+            width: "150px",
             textTransform: "none",
-            border: `2px dashed black`,
-            color: "red",
           },
         },
         {
-          props: { variant: "dashed", color: "secondary" },
+          props: { variant: "contained", color: "secondary" },
           style: {
-            border: `4px dashed red`,
-            color: "red",
+            width: "150px",
+            backgroundColor: FLAME2,
+          },
+        },
+        {
+          props: { variant: "contained", color: "info" },
+          style: {
+            width: "150px",
+            backgroundColor: FOREST2,
           },
         },
       ],

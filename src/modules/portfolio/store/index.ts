@@ -26,7 +26,7 @@ export class PortfolioStore implements IPortfolioStore {
       assetsTree: computed,
       isLoading: computed,
 
-      addCathegory: action.bound,
+      addCategory: action.bound,
       addAsset: action.bound,
       loadAssetsTree: action.bound,
     });
@@ -47,6 +47,6 @@ export class PortfolioStore implements IPortfolioStore {
     }
   }
 
-  addCathegory() {}
+  addCategory() {}
   addAsset() {}
 }

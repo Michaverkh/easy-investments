@@ -1,8 +1,11 @@
-import { Box, Typography, useTheme } from "@mui/material";
-import { FC } from "react";
+import { Box, Button, Tooltip, Typography, useTheme } from "@mui/material";
+import { FC, useState } from "react";
 import { EAssetsType, IAssetsItem } from "../../../store/interfaces";
-import AddIcon from "@mui/icons-material/Add";
+
 import { AssetsParam } from "../AssetsParam";
+import { EditButton } from "../../../../../shared/components/EditButton";
+import { AddItemButton } from "../../../../../shared/components/AddItemButon";
+import { DARK1, SUN2 } from "../../../../../app/themes/colors";
 
 /*
   type: EAssetsType;
@@ -29,17 +32,25 @@ export const AssetsItem: FC<IProps> = ({
 }) => {
   const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const handleAddCategory = () => {};
+  const handleEdit = () => setIsEdit(!isEdit);
+  const handleSave = () => {};
 
   const assetsItemHeader = {
     display: "flex",
     justifyContent: "space-between",
-    marginBottom: "10px",
+    alignItems: "center",
+    marginBottom: isAssets ? 0 : "10px",
+    marginRight: isAssets ? "10px" : 0,
   };
 
   const assetsItemBody = {
     display: isAssets ? "flex" : "block",
     "& > div:not(:last-child)": {
-      marginBottom: "10px",
+      marginBottom: isAssets ? 0 : "10px",
+      marginRight: isAssets ? "10px" : 0,
     },
   };
 
@@ -47,24 +58,60 @@ export const AssetsItem: FC<IProps> = ({
     <Box sx={{ display: "flex" }}>
       <Box
         sx={{
-          // width: "500px",
           display: isAssets ? "flex" : "block",
+          alignItems: "center",
+          justifyContent: "space-between",
+          minWidth: isAssets ? "400px" : "230px",
           backgroundColor: theme.palette.secondary.main,
           borderRadius: "10px",
           padding: "16px",
-          marginRight: "10px",
+          marginRight: isAssets ? 0 : "10px",
+          border: `1px solid ${isEdit ? SUN2 : DARK1}`,
         }}
       >
         <Box sx={assetsItemHeader}>
-          <Typography>{name}</Typography>
-          {!isAssets && <AddIcon />}
+          <Typography variant="h6">{name}</Typography>
+          {!isAssets && (
+            <Box sx={{ display: "flex" }}>
+              {!isEdit && (
+                <AddItemButton
+                  onClick={handleAddCategory}
+                  tooltipText="Добавить категорию"
+                />
+              )}
+              <EditButton
+                isEdit={isEdit}
+                onClickEdit={handleEdit}
+                onClickSave={handleSave}
+              />
+            </Box>
+          )}
         </Box>
         <Box sx={assetsItemBody}>
-          <AssetsParam valueName="объем в портфеле" value={valueInPortfolio} />
-          <AssetsParam valueName="доля в портфеле" value={factualShare} />
-          <AssetsParam valueName="целевая доля" value={targetShare} />
+          <AssetsParam
+            valueName="объем в портфеле"
+            value={valueInPortfolio}
+            isAssets={isAssets}
+          />
+          <AssetsParam
+            valueName="доля в портфеле"
+            value={factualShare}
+            isAssets={isAssets}
+          />
+          <AssetsParam
+            valueName="целевая доля"
+            value={targetShare}
+            isAssets={isAssets}
+          />
           {paymentPerMonth && (
             <AssetsParam valueName="взнос" value={paymentPerMonth} />
+          )}
+          {isAssets && (
+            <EditButton
+              isEdit={isEdit}
+              onClickEdit={handleEdit}
+              onClickSave={handleSave}
+            />
           )}
         </Box>
       </Box>
