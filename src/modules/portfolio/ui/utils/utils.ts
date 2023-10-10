@@ -7,9 +7,13 @@ interface IAssetsItemWithChildren extends IAssetsItem {
 export const getAssetsWithChildren = (
   assets: IAssetsItemWithChildren[]
 ): IAssetsItemWithChildren[] => {
-  assets.forEach((asset) => {
+  const newAssets = assets.map((item) => {
+    return { ...item };
+  });
+
+  newAssets.forEach((asset) => {
     if (asset.parent) {
-      const targetItem = assets.find((item) => item.name === asset.parent);
+      const targetItem = newAssets.find((item) => item.name === asset.parent);
 
       if (targetItem) {
         targetItem.children = targetItem.children || [];
@@ -23,5 +27,5 @@ export const getAssetsWithChildren = (
     }
   });
 
-  return assets;
+  return newAssets;
 };

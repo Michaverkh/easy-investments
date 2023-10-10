@@ -13,6 +13,9 @@ export interface IAssetsItem {
   parent?: string;
 }
 
+export interface IAssetsItemValues
+  extends Omit<Required<IAssetsItem>, "parent" | "type"> {}
+
 export interface IAssetsItems {
   items: IAssetsItem[];
 }
@@ -23,4 +26,5 @@ export interface IPortfolioStore {
   addCategory: () => void;
   addAsset: () => void;
   loadAssetsTree: () => Promise<void>;
+  updateAsset: (assetItem: IAssetsItemValues) => void;
 }

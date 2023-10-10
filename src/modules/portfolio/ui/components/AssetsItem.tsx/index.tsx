@@ -1,11 +1,18 @@
 import { Box, Button, Tooltip, Typography, useTheme } from "@mui/material";
-import { FC, useState } from "react";
-import { EAssetsType, IAssetsItem } from "../../../store/interfaces";
+import { FC, FormEvent, useState } from "react";
+import {
+  EAssetsType,
+  IAssetsItem,
+  IAssetsItemValues,
+} from "../../../store/interfaces";
 
 import { AssetsParam } from "../AssetsParam";
 import { EditButton } from "../../../../../shared/components/EditButton";
-import { AddItemButton } from "../../../../../shared/components/AddItemButon";
+import { AddItemButton } from "../../../../../shared/components/AddItemButton";
 import { DARK1, SUN2 } from "../../../../../app/themes/colors";
+import { Formik } from "formik";
+import { assetsFormSchema } from "../../validationSchemas";
+import useStore from "../../../../../shared/hooks/useStore";
 
 /*
   type: EAssetsType;
@@ -27,16 +34,36 @@ export const AssetsItem: FC<IProps> = ({
   valueInPortfolio,
   factualShare,
   targetShare,
-  paymentPerMonth,
+  paymentPerMonth = 0,
   children,
 }) => {
+  const { portfolioStore } = useStore();
+  const { updateAsset, assetsTree } = portfolioStore;
+
   const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleAddCategory = () => {};
   const handleEdit = () => setIsEdit(!isEdit);
-  const handleSave = () => {};
+
+  const handleSubmit = (values: IAssetsItemValues) => {
+    console.log("submited values", values);
+    updateAsset(values);
+    setIsEdit(false);
+  };
+
+  const handleCancel = () => {
+    setIsEdit(false);
+  };
+
+  const assetsItemInitialValues: IAssetsItemValues = {
+    name,
+    valueInPortfolio,
+    factualShare,
+    targetShare,
+    paymentPerMonth,
+  };
 
   const assetsItemHeader = {
     display: "flex",
@@ -72,48 +99,100 @@ export const AssetsItem: FC<IProps> = ({
         <Box sx={assetsItemHeader}>
           <Typography variant="h6">{name}</Typography>
           {!isAssets && (
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex" }} id="buttonsContainer">
               {!isEdit && (
                 <AddItemButton
                   onClick={handleAddCategory}
                   tooltipText="Добавить категорию"
                 />
               )}
-              <EditButton
+              {/* <EditButton
                 isEdit={isEdit}
                 onClickEdit={handleEdit}
                 onClickSave={handleSave}
-              />
+                onClickCancel={handleCancel}
+              /> */}
             </Box>
           )}
         </Box>
-        <Box sx={assetsItemBody}>
-          <AssetsParam
-            valueName="объем в портфеле"
-            value={valueInPortfolio}
-            isAssets={isAssets}
-          />
-          <AssetsParam
-            valueName="доля в портфеле"
-            value={factualShare}
-            isAssets={isAssets}
-          />
-          <AssetsParam
-            valueName="целевая доля"
-            value={targetShare}
-            isAssets={isAssets}
-          />
-          {paymentPerMonth && (
-            <AssetsParam valueName="взнос" value={paymentPerMonth} />
-          )}
-          {isAssets && (
-            <EditButton
-              isEdit={isEdit}
-              onClickEdit={handleEdit}
-              onClickSave={handleSave}
-            />
-          )}
-        </Box>
+
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={assetsItemInitialValues}
+          validationSchema={assetsFormSchema}
+        >
+          {({
+            values,
+            errors,
+            handleChange,
+            handleSubmit,
+            touched,
+            handleReset,
+          }) => {
+            return (
+              <form onSubmit={handleSubmit}>
+                <Box sx={assetsItemBody}>
+                  <AssetsParam
+                    valueName="объем в портфеле"
+                    renderValue={valueInPortfolio}
+                    inputValue={values.valueInPortfolio}
+                    isAssets={isAssets}
+                    isEdit={isEdit}
+                    inputName="valueInPortfolio"
+                    handleChange={handleChange}
+                    error={errors.valueInPortfolio}
+                  />
+                  <AssetsParam
+                    valueName="доля в портфеле"
+                    renderValue={factualShare}
+                    inputValue={values.factualShare}
+                    isAssets={isAssets}
+                    isEdit={isEdit}
+                    inputName="factualShare"
+                    handleChange={handleChange}
+                    error={errors.factualShare}
+                  />
+                  <AssetsParam
+                    valueName="целевая доля"
+                    renderValue={targetShare}
+                    inputValue={values.targetShare}
+                    isAssets={isAssets}
+                    isEdit={isEdit}
+                    inputName="targetShare"
+                    handleChange={handleChange}
+                    error={errors.targetShare}
+                  />
+                  {paymentPerMonth !== 0 && (
+                    <AssetsParam
+                      valueName="взнос"
+                      renderValue={paymentPerMonth}
+                      inputValue={values.paymentPerMonth}
+                      isAssets={isAssets}
+                      isEdit={isEdit}
+                      inputName="paymentPerMonth"
+                      handleChange={handleChange}
+                      error={errors.paymentPerMonth}
+                    />
+                  )}
+                  {isAssets && (
+                    <EditButton
+                      isEdit={isEdit}
+                      onClickEdit={handleEdit}
+                      onClickSave={handleSubmit}
+                      onClickCancel={handleCancel}
+                    />
+                  )}
+                  {/* <EditButton
+                  isEdit={isEdit}
+                  onClickEdit={handleEdit}
+                  onClickSave={handleSubmit}
+                  onClickCancel={handleCancel}
+                /> */}
+                </Box>
+              </form>
+            );
+          }}
+        </Formik>
       </Box>
       {children && (
         <Box

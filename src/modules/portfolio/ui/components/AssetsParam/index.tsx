@@ -1,27 +1,41 @@
-import { Box, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, Input, Tooltip, Typography, useTheme } from "@mui/material";
 import { isEmptyChildren } from "formik";
-import { Children, FC } from "react";
+import { ChangeEvent, Children, FC } from "react";
 
 interface IProps {
   valueName: string;
-  value: number;
+  renderValue: number;
+  inputValue: number;
+  isEdit: boolean;
+  inputName: string;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   isPercent?: boolean;
   isAssets?: boolean;
+  error?: string;
 }
 
 export const AssetsParam: FC<IProps> = ({
   valueName,
-  value,
+  renderValue,
+  inputValue,
   isPercent,
   isAssets,
+  isEdit,
+  handleChange,
+  inputName,
+  error,
 }) => {
   const theme = useTheme();
+
+  // console.log("error", error);
 
   const valueStyle = {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
     width: "66px",
+
+    minHeight: "40px",
     backgroundColor: theme.palette.primary.light,
     borderRadius: "5px",
     padding: "5px",
@@ -31,6 +45,8 @@ export const AssetsParam: FC<IProps> = ({
       overflow: "hidden",
     },
   };
+
+  const inputStyles = {};
 
   return (
     <Box
@@ -48,23 +64,48 @@ export const AssetsParam: FC<IProps> = ({
           <Box mr="5px" className="assetHead">
             <Typography variant="body2">{valueName}</Typography>
           </Box>
-          <Box sx={valueStyle}>
-            {isPercent ? (
-              <Typography variant="body1">{value} %</Typography>
-            ) : (
-              <Typography variant="body1">{value}</Typography>
-            )}
-          </Box>
+          {isEdit ? (
+            <Box sx={valueStyle}>
+              <Input
+                type="number"
+                value={inputValue}
+                onChange={handleChange}
+                name={inputName}
+                id={`${inputName}-id`}
+              />
+            </Box>
+          ) : (
+            <Box sx={valueStyle}>
+              {isPercent ? (
+                <Typography variant="body1">{renderValue} %</Typography>
+              ) : (
+                <Typography variant="body1">{renderValue}</Typography>
+              )}
+            </Box>
+          )}
         </>
       ) : (
         <Tooltip title={valueName} placement="top">
-          <Box sx={valueStyle}>
-            {isPercent ? (
-              <Typography variant="body1">{value} %</Typography>
-            ) : (
-              <Typography variant="body1">{value}</Typography>
-            )}
-          </Box>
+          {isEdit ? (
+            <Box sx={valueStyle}>
+              <Input
+                type="number"
+                value={inputValue}
+                onChange={handleChange}
+                name={inputName}
+                id={`${inputName}-id`}
+                error={!!error}
+              />
+            </Box>
+          ) : (
+            <Box sx={valueStyle}>
+              {isPercent ? (
+                <Typography variant="body1">{renderValue} %</Typography>
+              ) : (
+                <Typography variant="body1">{renderValue}</Typography>
+              )}
+            </Box>
+          )}
         </Tooltip>
       )}
     </Box>

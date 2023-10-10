@@ -3,7 +3,7 @@ import useStore from "../../../shared/hooks/useStore";
 import { observer } from "mobx-react-lite";
 import { Box, CircularProgress } from "@mui/material";
 import { AssetsItem } from "./components/AssetsItem.tsx";
-import { getAssetsWithChildren } from "./utils";
+import { getAssetsWithChildren } from "./utils/utils";
 import { MOUNTAIN2 } from "../../../app/themes/colors";
 
 const PortfolioPage: FC = () => {

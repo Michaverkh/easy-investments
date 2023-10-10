@@ -8,12 +8,14 @@ interface IProps {
   isEdit: boolean;
   onClickEdit: () => void;
   onClickSave: () => void;
+  onClickCancel: () => void;
 }
 
 export const EditButton: FC<IProps> = ({
   isEdit,
   onClickEdit,
   onClickSave,
+  onClickCancel,
 }) => {
   const buttonStyles = {
     minWidth: "32px",
@@ -27,7 +29,7 @@ export const EditButton: FC<IProps> = ({
         </Button>
       </Tooltip>
       <Tooltip title="Отменить" placement="top">
-        <Button variant="text" onClick={onClickEdit} sx={buttonStyles}>
+        <Button variant="text" onClick={onClickCancel} sx={buttonStyles}>
           <CloseIcon fontSize="small" />
         </Button>
       </Tooltip>
