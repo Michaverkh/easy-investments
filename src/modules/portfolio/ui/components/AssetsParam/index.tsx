@@ -27,14 +27,10 @@ export const AssetsParam: FC<IProps> = ({
 }) => {
   const theme = useTheme();
 
-  // console.log("error", error);
-
   const valueStyle = {
     display: "flex",
     alignItems: "center",
-    // justifyContent: "center",
     width: "66px",
-
     minHeight: "40px",
     backgroundColor: theme.palette.primary.light,
     borderRadius: "5px",

@@ -23,6 +23,7 @@ export interface IAssetsItems {
 export interface IPortfolioStore {
   assetsTree: IAssetsItem[];
   isLoading: boolean;
+  isAssetsTreeUpdated: boolean;
   addCategory: () => void;
   addAsset: () => void;
   loadAssetsTree: () => Promise<void>;

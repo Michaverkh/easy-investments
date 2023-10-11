@@ -13,6 +13,7 @@ import { DARK1, SUN2 } from "../../../../../app/themes/colors";
 import { Formik } from "formik";
 import { assetsFormSchema } from "../../validationSchemas";
 import useStore from "../../../../../shared/hooks/useStore";
+import { createPortal } from "react-dom";
 
 /*
   type: EAssetsType;
@@ -38,7 +39,7 @@ export const AssetsItem: FC<IProps> = ({
   children,
 }) => {
   const { portfolioStore } = useStore();
-  const { updateAsset, assetsTree } = portfolioStore;
+  const { updateAsset } = portfolioStore;
 
   const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
@@ -48,7 +49,6 @@ export const AssetsItem: FC<IProps> = ({
   const handleEdit = () => setIsEdit(!isEdit);
 
   const handleSubmit = (values: IAssetsItemValues) => {
-    console.log("submited values", values);
     updateAsset(values);
     setIsEdit(false);
   };
@@ -73,6 +73,15 @@ export const AssetsItem: FC<IProps> = ({
     marginRight: isAssets ? "10px" : 0,
   };
 
+  const assetsItemHeaderName = {
+    width: "150px",
+    "& > p": {
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+    },
+  };
+
   const assetsItemBody = {
     display: isAssets ? "flex" : "block",
     "& > div:not(:last-child)": {
@@ -80,6 +89,10 @@ export const AssetsItem: FC<IProps> = ({
       marginRight: isAssets ? "10px" : 0,
     },
   };
+
+  const boxForRenderButton = document.getElementById(
+    `buttonsContainer-${name}`
+  );
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -97,21 +110,19 @@ export const AssetsItem: FC<IProps> = ({
         }}
       >
         <Box sx={assetsItemHeader}>
-          <Typography variant="h6">{name}</Typography>
+          <Box sx={assetsItemHeaderName}>
+            <Typography variant="h6">{name}</Typography>
+          </Box>
+
           {!isAssets && (
-            <Box sx={{ display: "flex" }} id="buttonsContainer">
+            <Box sx={{ display: "flex" }}>
+              <Box id={`buttonsContainer-${name}`}></Box>
               {!isEdit && (
                 <AddItemButton
                   onClick={handleAddCategory}
-                  tooltipText="Добавить категорию"
+                  tooltipText="Добавить категорию / актив"
                 />
               )}
-              {/* <EditButton
-                isEdit={isEdit}
-                onClickEdit={handleEdit}
-                onClickSave={handleSave}
-                onClickCancel={handleCancel}
-              /> */}
             </Box>
           )}
         </Box>
@@ -174,20 +185,25 @@ export const AssetsItem: FC<IProps> = ({
                       error={errors.paymentPerMonth}
                     />
                   )}
-                  {isAssets && (
+                  {isAssets ? (
                     <EditButton
                       isEdit={isEdit}
                       onClickEdit={handleEdit}
                       onClickSave={handleSubmit}
                       onClickCancel={handleCancel}
                     />
+                  ) : (
+                    boxForRenderButton &&
+                    createPortal(
+                      <EditButton
+                        isEdit={isEdit}
+                        onClickEdit={handleEdit}
+                        onClickSave={handleSubmit}
+                        onClickCancel={handleCancel}
+                      />,
+                      boxForRenderButton
+                    )
                   )}
-                  {/* <EditButton
-                  isEdit={isEdit}
-                  onClickEdit={handleEdit}
-                  onClickSave={handleSubmit}
-                  onClickCancel={handleCancel}
-                /> */}
                 </Box>
               </form>
             );

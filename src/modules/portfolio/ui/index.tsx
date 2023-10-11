@@ -8,7 +8,7 @@ import { MOUNTAIN2 } from "../../../app/themes/colors";
 
 const PortfolioPage: FC = () => {
   const { portfolioStore } = useStore();
-  const { assetsTree, isLoading } = portfolioStore;
+  const { assetsTree, isLoading, isAssetsTreeUpdated } = portfolioStore;
 
   useEffect(() => {
     async function getData() {
@@ -19,7 +19,7 @@ const PortfolioPage: FC = () => {
 
   const updatedAssets = useMemo(
     () => getAssetsWithChildren(assetsTree),
-    [assetsTree]
+    [assetsTree, isAssetsTreeUpdated]
   );
 
   const portfolioPage = {

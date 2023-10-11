@@ -9,6 +9,7 @@ import { assetsItemsMapper } from "./mappers";
 export class PortfolioStore implements IPortfolioStore {
   _assetsTree: IAssetsItem[] = [];
   _loading: boolean = false;
+  _isAssetsTreeUpdated: boolean = false;
 
   get assetsTree() {
     return this._assetsTree;
@@ -18,13 +19,22 @@ export class PortfolioStore implements IPortfolioStore {
     return this._loading;
   }
 
+  get isAssetsTreeUpdated() {
+    return this._isAssetsTreeUpdated;
+  }
+
   constructor() {
-    makeObservable<IPortfolioStore, "_assetsTree" | "_loading">(this, {
+    makeObservable<
+      IPortfolioStore,
+      "_assetsTree" | "_loading" | "_isAssetsTreeUpdated"
+    >(this, {
       _assetsTree: observable,
       _loading: observable,
+      _isAssetsTreeUpdated: observable,
 
       assetsTree: computed,
       isLoading: computed,
+      isAssetsTreeUpdated: computed,
 
       addCategory: action.bound,
       addAsset: action.bound,
@@ -61,13 +71,15 @@ export class PortfolioStore implements IPortfolioStore {
       (asset) => asset.name === name
     );
 
-    if (targetIndex) {
+    if (targetIndex !== -1) {
       const targetElement = this._assetsTree[targetIndex];
 
       targetElement.factualShare = factualShare;
       targetElement.valueInPortfolio = valueInPortfolio;
       targetElement.targetShare = targetShare;
       targetElement.paymentPerMonth = paymentPerMonth;
+
+      this._isAssetsTreeUpdated = !this._isAssetsTreeUpdated;
     } else {
       throw new Error("element is not found");
     }
@@ -76,10 +88,3 @@ export class PortfolioStore implements IPortfolioStore {
   addCategory() {}
   addAsset() {}
 }
-
-/*
-  valueInPortfolio: number;
-  factualShare: number;
-  targetShare: number;
-  paymentPerMonth?: number;
-*/
