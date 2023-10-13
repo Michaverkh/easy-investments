@@ -6,6 +6,7 @@ import { AppHeader } from "./components/AppHeader";
 import { RoterPath } from "../shared/router/enums";
 import { CalculatorPage } from "../modules/calculator/ui";
 import { AppFooter } from "./components/AppFooter";
+import { DialogStandard } from "../shared/components/Dialog";
 
 const appWrapper = {
   height: "100vh",
@@ -31,6 +32,7 @@ export const App = () => {
           </Routes>
         </Box>
         <AppFooter />
+        <DialogStandard open={false} onClose={() => console.log("close")} />
       </Box>
     </BrowserRouter>
   );
