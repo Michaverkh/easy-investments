@@ -1,5 +1,11 @@
 import { action, computed, makeObservable, observable } from "mobx";
-import { IAssetsItem, IAssetsItemValues, IPortfolioStore } from "./interfaces";
+import {
+  EAssetsType,
+  IAddAssetValues,
+  IAssetsItem,
+  IAssetsItemValues,
+  IPortfolioStore,
+} from "./interfaces";
 import { apiModule } from "../../..";
 import { IAssetsItemsResponseDTO } from "./dto";
 import { EEndpoints } from "../../../shared/api/enums";
@@ -40,6 +46,7 @@ export class PortfolioStore implements IPortfolioStore {
       addAsset: action.bound,
       loadAssetsTree: action.bound,
       updateAsset: action.bound,
+      isNameAlreadyExisted: action.bound,
     });
   }
 
@@ -59,13 +66,7 @@ export class PortfolioStore implements IPortfolioStore {
   }
 
   updateAsset(assetItem: IAssetsItemValues): void {
-    const {
-      name,
-      targetShare,
-      factualShare,
-      valueInPortfolio,
-      paymentPerMonth,
-    } = assetItem;
+    const { name, targetShare, valueInPortfolio } = assetItem;
 
     const targetIndex = this._assetsTree.findIndex(
       (asset) => asset.name === name
@@ -74,10 +75,8 @@ export class PortfolioStore implements IPortfolioStore {
     if (targetIndex !== -1) {
       const targetElement = this._assetsTree[targetIndex];
 
-      targetElement.factualShare = factualShare;
       targetElement.valueInPortfolio = valueInPortfolio;
       targetElement.targetShare = targetShare;
-      targetElement.paymentPerMonth = paymentPerMonth;
 
       this._isAssetsTreeUpdated = !this._isAssetsTreeUpdated;
     } else {
@@ -85,6 +84,24 @@ export class PortfolioStore implements IPortfolioStore {
     }
   }
 
+  isNameAlreadyExisted(name: string): boolean {
+    const targetIndex = this._assetsTree.findIndex(
+      (asset) => asset.name.toUpperCase() === name.toUpperCase()
+    );
+
+    return targetIndex >= 0;
+  }
+
+  addAsset(newAssetItem: IAddAssetValues): void {
+    const asset: IAssetsItem = {
+      ...newAssetItem,
+      type: newAssetItem.isAsset ? EAssetsType.ASSETS : EAssetsType.CATHEGORY,
+      factualShare: 0,
+      rate: 0,
+    };
+
+    this._assetsTree.push(asset);
+  }
+
   addCategory() {}
-  addAsset() {}
 }

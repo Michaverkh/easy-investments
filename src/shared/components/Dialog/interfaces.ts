@@ -31,3 +31,9 @@ export interface IDialog {
   setState: (name: string, payload: Record<string, any>) => void;
   reset: () => void;
 }
+
+export interface IDialogComponentProps {
+  id: string;
+  open: boolean;
+  onClose: () => void;
+}

@@ -14,6 +14,9 @@ import { Formik } from "formik";
 import { assetsFormSchema } from "../../validationSchemas";
 import useStore from "../../../../../shared/hooks/useStore";
 import { createPortal } from "react-dom";
+import { useDialog } from "../../../../../shared/components/Dialog/hooks";
+import { AddAssetDialogPayload } from "../../dialogs/AddAssetDialog/interfaces";
+import { AssetsReadonlyParam } from "../AssetsReadonlyParam";
 
 /*
   type: EAssetsType;
@@ -44,8 +47,15 @@ export const AssetsItem: FC<IProps> = ({
   const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const dialog = useDialog();
 
-  const handleAddCategory = () => {};
+  const dialogPayload: AddAssetDialogPayload = {
+    parentName: name,
+  };
+
+  const handleAddCategory = () => {
+    dialog.setState("addAsset", dialogPayload);
+  };
   const handleEdit = () => setIsEdit(!isEdit);
 
   const handleSubmit = (values: IAssetsItemValues) => {
@@ -60,9 +70,7 @@ export const AssetsItem: FC<IProps> = ({
   const assetsItemInitialValues: IAssetsItemValues = {
     name,
     valueInPortfolio,
-    factualShare,
     targetShare,
-    paymentPerMonth,
   };
 
   const assetsItemHeader = {
@@ -153,15 +161,11 @@ export const AssetsItem: FC<IProps> = ({
                     handleChange={handleChange}
                     error={errors.valueInPortfolio}
                   />
-                  <AssetsParam
+                  <AssetsReadonlyParam
                     valueName="доля в портфеле"
                     renderValue={factualShare}
-                    inputValue={values.factualShare}
                     isAssets={isAssets}
-                    isEdit={isEdit}
-                    inputName="factualShare"
-                    handleChange={handleChange}
-                    error={errors.factualShare}
+                    isPercent={true}
                   />
                   <AssetsParam
                     valueName="целевая доля"
@@ -172,17 +176,13 @@ export const AssetsItem: FC<IProps> = ({
                     inputName="targetShare"
                     handleChange={handleChange}
                     error={errors.targetShare}
+                    isPercent={true}
                   />
                   {paymentPerMonth !== 0 && (
-                    <AssetsParam
+                    <AssetsReadonlyParam
                       valueName="взнос"
                       renderValue={paymentPerMonth}
-                      inputValue={values.paymentPerMonth}
                       isAssets={isAssets}
-                      isEdit={isEdit}
-                      inputName="paymentPerMonth"
-                      handleChange={handleChange}
-                      error={errors.paymentPerMonth}
                     />
                   )}
                   {isAssets ? (

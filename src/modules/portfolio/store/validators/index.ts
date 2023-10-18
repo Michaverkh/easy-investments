@@ -6,6 +6,7 @@ export const assetsItemResponseSchema = object({
   valueInPortfolio: number().notRequired().default(0),
   factualShare: number().notRequired().default(0),
   targetShare: number().notRequired().default(0),
+  rate: number().notRequired().default(0),
   paymentPerMonth: number().optional(),
   parent: string().optional(),
 });

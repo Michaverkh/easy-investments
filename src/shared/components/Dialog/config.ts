@@ -1,4 +1,4 @@
-import { DialogStandard } from ".";
+import { DialogStandard } from "../../../modules/portfolio/ui/dialogs/AddAssetDialog";
 import { IDialogConfig } from "./interfaces";
 
 export const dialogConfig: IDialogConfig[] = [

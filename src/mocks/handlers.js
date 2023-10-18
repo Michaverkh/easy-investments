@@ -4,6 +4,6 @@ import { EEndpoints } from "../shared/api/enums";
 
 export const handlers = [
   rest.get(EEndpoints.GET_ASSETS_INFO, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(assetsTree), ctx.delay(2000));
+    return res(ctx.status(200), ctx.json(assetsTree), ctx.delay(500));
   }),
 ];

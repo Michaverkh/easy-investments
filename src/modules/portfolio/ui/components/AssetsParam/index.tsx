@@ -1,6 +1,5 @@
 import { Box, Input, Tooltip, Typography, useTheme } from "@mui/material";
-import { isEmptyChildren } from "formik";
-import { ChangeEvent, Children, FC } from "react";
+import { ChangeEvent, FC } from "react";
 
 interface IProps {
   valueName: string;
@@ -42,7 +41,7 @@ export const AssetsParam: FC<IProps> = ({
     },
   };
 
-  const inputStyles = {};
+  // const inputStyles = {};
 
   return (
     <Box
@@ -107,41 +106,3 @@ export const AssetsParam: FC<IProps> = ({
     </Box>
   );
 };
-
-/*
-Предыдущая реализация
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        minHeight: "45px",
-        backgroundColor: theme.palette.primary.main,
-        borderRadius: "10px",
-        padding: "5px",
-
-        "& .assetHead": {
-          display: isAssets ? "none" : "block",
-          transition: "display 500ms ease",
-        },
-        "&:hover .assetHead": {
-          display: "block",
-          transition: "display 500ms ease",
-        },
-      }}
-    >
-      <Box mr="5px" className="assetHead">
-        <Typography variant="body2">{valueName}</Typography>
-      </Box>
-      <Box sx={valueStyle}>
-        {isPercent ? (
-          <Typography variant="body1">{value} %</Typography>
-        ) : (
-          <Typography variant="body1">{value}</Typography>
-        )}
-      </Box>
-    </Box>
-  );
-*/

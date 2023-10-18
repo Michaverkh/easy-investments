@@ -2,6 +2,12 @@ import { IAssetsItemResponseDTO, IAssetsItemsResponseDTO } from "../dto";
 import { IAssetsItems, IAssetsItem } from "../interfaces";
 import { morphism, Schema } from "morphism";
 
+// const calculateRate = (asset: IAssetsItemResponseDTO): number => {
+//   if (!asset.parent) {
+
+//   }
+//  }
+
 const assetsItemMapper = (source: IAssetsItemResponseDTO[]): IAssetsItem[] => {
   type AssetsItemSchema = Schema<IAssetsItem, IAssetsItemResponseDTO>;
 
@@ -13,6 +19,7 @@ const assetsItemMapper = (source: IAssetsItemResponseDTO[]): IAssetsItem[] => {
     targetShare: "targetShare",
     paymentPerMonth: "paymentPerMonth",
     parent: "parent",
+    rate: (value: IAssetsItemResponseDTO) => value.factualShare || 0,
   };
 
   return morphism<AssetsItemSchema>(schema, source);
