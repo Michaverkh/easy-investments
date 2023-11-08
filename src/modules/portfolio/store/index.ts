@@ -101,6 +101,7 @@ export class PortfolioStore implements IPortfolioStore {
     };
 
     this._assetsTree.push(asset);
+    this._isAssetsTreeUpdated = !this._isAssetsTreeUpdated;
   }
 
   addCategory() {}
