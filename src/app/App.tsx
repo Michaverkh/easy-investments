@@ -1,21 +1,40 @@
 import React from "react";
-import useStore from "../shared/hooks/useStore";
-import { Button } from "@mui/material";
-import { observer } from "mobx-react-lite";
+import PortfolioPage from "../modules/portfolio/ui/index";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Box } from "@mui/material";
+import { AppHeader } from "./components/AppHeader";
+import { RoterPath } from "../shared/router/enums";
+import { CalculatorPage } from "../modules/calculator/ui";
+import { AppFooter } from "./components/AppFooter";
+import { DialogStandard } from "../modules/portfolio/ui/dialogs/AddAssetDialog";
+import { DialogSelector } from "../shared/components/Dialog/components/DialogSelector";
 
-const App = () => {
-  const store = useStore();
-
-  console.log(store.portfolioStore.assetsTree);
-
-  return (
-    <div>
-      <p>My app</p>
-      <Button onClick={() => store.portfolioStore.addCathegory("s")}>
-        Пуньк
-      </Button>
-    </div>
-  );
+const appWrapper = {
+  height: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
 };
 
-export default observer(App);
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Box sx={appWrapper}>
+        <AppHeader />
+        <Box
+          sx={{
+            flexGrow: "1",
+            padding: "16px",
+          }}
+        >
+          <Routes>
+            <Route path={RoterPath.PORTFOLIO} element={<PortfolioPage />} />
+            <Route path={RoterPath.CALCULATOR} element={<CalculatorPage />} />
+          </Routes>
+        </Box>
+        <AppFooter />
+        <DialogSelector />
+      </Box>
+    </BrowserRouter>
+  );
+};

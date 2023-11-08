@@ -4,6 +4,7 @@ import { EHttpMethods } from "./enums";
 import { ValidationError } from "../globalErrorCollector/errors/ValidationError";
 import { ValidationError as YupValidationError } from "yup";
 import { ServerError } from "../globalErrorCollector/errors/ServerError";
+
 class ApiService {
   private connections: IConnection[] = [];
 
