@@ -1,4 +1,11 @@
 import { InferType } from "yup";
-import { userAuthResponseSchema } from "../validators";
+import { userAuthResponseSchema, userResponseSchema } from "../validators";
 
 export type IUserAuthResponseDTO = InferType<typeof userAuthResponseSchema>;
+
+export type IUserResponseDTO = InferType<typeof userResponseSchema>;
+
+export interface IUserRequestDTO {
+  email: string;
+  password: string;
+}

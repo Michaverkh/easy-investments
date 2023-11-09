@@ -1,9 +1,20 @@
+import { IUserRequestDTO } from "./dto";
+
+export interface IUser {
+  id: string;
+  email: string;
+}
+
 export interface IUserAuth {
   token: string;
+  user: IUser;
 }
 
 export interface IUserStore {
   isLoading: boolean;
-  login: () => Promise<void>;
-  registration: () => Promise<void>;
+  isAuth: boolean;
+  user: IUser;
+  authErrorMessage: string;
+  login: (requestParams: IUserRequestDTO) => Promise<void>;
+  registration: (requestParams: IUserRequestDTO) => Promise<void>;
 }
