@@ -1,7 +1,13 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
 import { IUser, IUserStore } from "./interfaces";
 import { apiModule } from "../../..";
-import { EEndpoints } from "../../../shared/api/enums";
+import { EEndpoints, EServerErrors } from "../../../shared/api/enums";
 import { IUserAuthResponseDTO, IUserRequestDTO } from "./dto";
 import { userAuthResponseSchema } from "./validators";
 import { userAuthMapper } from "./mappers";
@@ -58,16 +64,20 @@ export class UserStore implements IUserStore {
       >(`${EEndpoints.LOGIN}`, requestParams, {
         responseValidationSchema: userAuthResponseSchema,
       });
-
       const mappedResult = await userAuthMapper(result);
 
       if (mappedResult.token) {
         localStorage.setItem("token", mappedResult.token);
-        this._isAuth = true;
-        this._authErrorMessage = "";
-      } else {
-        this._isAuth = false;
-        this._authErrorMessage = EErrorMessages.INCORRECT_AUTH_DATA;
+        runInAction(() => (this._isAuth = true));
+        runInAction(() => (this._authErrorMessage = ""));
+      }
+    } catch (err: any) {
+      console.log("err", err.message);
+
+      if (err.message === EServerErrors.UNAUTHORIZED_ERROR) {
+        runInAction(
+          () => (this._authErrorMessage = EErrorMessages.INCORRECT_AUTH_DATA)
+        );
       }
     } finally {
       this._loading = false;

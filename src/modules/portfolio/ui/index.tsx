@@ -5,14 +5,9 @@ import { Box, CircularProgress } from "@mui/material";
 import { AssetsItem } from "./components/AssetsItem.tsx";
 import { getAssetsWithChildren } from "./utils/utils";
 import { MOUNTAIN2 } from "../../../app/themes/colors";
-import { RouterPath } from "../../../shared/router/enums";
-import { Navigate } from "react-router-dom";
 
-// Если пользователь не авторизован, редиректим его на auth page
-
-const PortfolioPage: FC = () => {
-  const { portfolioStore, userStore } = useStore();
-  const { isAuth } = userStore;
+const PortfolioPageComponent: FC = () => {
+  const { portfolioStore } = useStore();
   const { assetsTree, isLoading, isAssetsTreeUpdated } = portfolioStore;
 
   useEffect(() => {
@@ -36,47 +31,43 @@ const PortfolioPage: FC = () => {
 
   return (
     <>
-      {!isAuth ? (
-        <Navigate to={RouterPath.AUTH} replace={true} />
-      ) : (
-        <Box sx={portfolioPage}>
-          <Box></Box>
+      <Box sx={portfolioPage}>
+        <Box></Box>
+        <Box
+          sx={{
+            border: `5px solid	${MOUNTAIN2}`,
+            borderRadius: "20px",
+            padding: "16px",
+          }}
+        >
           <Box
             sx={{
-              border: `5px solid	${MOUNTAIN2}`,
-              borderRadius: "20px",
-              padding: "16px",
+              "& > *:not(:last-child)": {
+                marginBottom: "10px",
+              },
             }}
           >
-            <Box
-              sx={{
-                "& > *:not(:last-child)": {
-                  marginBottom: "10px",
-                },
-              }}
-            >
-              {updatedAssets.map(
-                (asset) =>
-                  !asset.parent && <AssetsItem key={asset.name} {...asset} />
-              )}
-            </Box>
-            {isLoading && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                }}
-              >
-                <CircularProgress />
-              </Box>
+            {updatedAssets.map(
+              (asset) =>
+                !asset.parent && <AssetsItem key={asset.name} {...asset} />
             )}
           </Box>
+          {isLoading && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
         </Box>
-      )}
+      </Box>
     </>
   );
 };
 
-export default observer(PortfolioPage);
+export const PortfolioPage = observer(PortfolioPageComponent);

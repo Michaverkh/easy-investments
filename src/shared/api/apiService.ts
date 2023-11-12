@@ -199,10 +199,13 @@ class ApiService {
           }
 
           return resData;
+        } else {
+          throw new Error(`${response.status}`);
         }
       })
       .catch((e: any) => {
-        throw new ServerError(e as YupValidationError);
+        // throw new ServerError(e as YupValidationError);
+        throw new Error(e.message);
       })
       .finally(() => {
         clearTimeout(timeoutId);

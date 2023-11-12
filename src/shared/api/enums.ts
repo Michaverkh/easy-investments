@@ -1,7 +1,7 @@
 export enum EEndpoints {
   GET_ASSETS_INFO = "assetsTree/info",
-  LOGIN = "user/login",
-  REGISTRATION = "user/registration",
+  LOGIN = "login",
+  REGISTRATION = "registration",
 }
 
 export enum EHttpMethods {
@@ -9,4 +9,8 @@ export enum EHttpMethods {
   POST = "post",
   PUT = "put",
   DELETE = "delete",
+}
+
+export enum EServerErrors {
+  UNAUTHORIZED_ERROR = "401",
 }

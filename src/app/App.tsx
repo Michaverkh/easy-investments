@@ -1,4 +1,3 @@
-import PortfolioPage from "../modules/portfolio/ui/index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box } from "@mui/material";
 import { RouterPath } from "../shared/router/enums";
@@ -7,6 +6,7 @@ import { DialogSelector } from "../shared/components/Dialog/components/DialogSel
 import { AuthPage } from "../modules/user/ui";
 import { DARK1, LIGHT1 } from "./themes/colors";
 import { SideBar } from "./components/SideBar";
+import { MainPage } from "./components/MainPage";
 
 const appWrapper = {
   display: "flex",
@@ -40,7 +40,7 @@ export const App = () => {
             }}
           >
             <Routes>
-              <Route path={RouterPath.PORTFOLIO} element={<PortfolioPage />} />
+              <Route path={RouterPath.PORTFOLIO} element={<MainPage />} />
               <Route
                 path={RouterPath.CALCULATOR}
                 element={<CalculatorPage />}
