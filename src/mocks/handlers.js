@@ -10,6 +10,6 @@ export const handlers = [
   }),
 
   rest.post(EEndpoints.LOGIN, (req, res, ctx) => {
-    return res(ctx.status(401), ctx.json(authUserError), ctx.delay(500));
+    return res(ctx.status(200), ctx.json(authUserSuccess), ctx.delay(500));
   }),
 ];

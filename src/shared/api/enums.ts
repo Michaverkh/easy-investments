@@ -12,5 +12,7 @@ export enum EHttpMethods {
 }
 
 export enum EServerErrors {
-  UNAUTHORIZED_ERROR = "401",
+  INCORRECT_PASSWORD = "501",
+  INCORRECT_EMAIL = "502",
+  USER_ALREADY_EXISTS = "503",
 }

@@ -72,12 +72,19 @@ export class UserStore implements IUserStore {
         runInAction(() => (this._authErrorMessage = ""));
       }
     } catch (err: any) {
-      console.log("err", err.message);
-
-      if (err.message === EServerErrors.UNAUTHORIZED_ERROR) {
-        runInAction(
-          () => (this._authErrorMessage = EErrorMessages.INCORRECT_AUTH_DATA)
-        );
+      switch (err.message) {
+        case EServerErrors.INCORRECT_PASSWORD:
+          runInAction(
+            () => (this._authErrorMessage = EErrorMessages.INCORRECT_PASSWORD)
+          );
+          return;
+        case EServerErrors.INCORRECT_EMAIL:
+          runInAction(
+            () => (this._authErrorMessage = EErrorMessages.INCORRECT_EMAIL)
+          );
+          return;
+        default:
+          console.log("AuthError", err.message);
       }
     } finally {
       this._loading = false;

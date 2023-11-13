@@ -7,7 +7,7 @@ import { observer } from "mobx-react-lite";
 
 const AuthPageComponent: FC = () => {
   const { userStore } = useStore();
-  const { isLoading, login, isAuth, authErrorMessage } = userStore;
+  const { authErrorMessage } = userStore;
   const [tabNumber, setTabNumber] = useState<number>(0);
 
   const handleTabNumberChange = (
