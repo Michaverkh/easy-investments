@@ -78,22 +78,6 @@ const RegistrationFormComponent: FC = () => {
                         !!touched.repeatPassword && !!errors.repeatPassword
                       }
                     />
-                    {/* <TextField
-                      id="repeatPassword-id"
-                      label="повторите пароль"
-                      variant="outlined"
-                      type="text"
-                      onChange={handleChange}
-                      value={values.repeatPassword}
-                      name="repeatPassword"
-                      sx={{ width: "100%" }}
-                      error={
-                        !!touched.repeatPassword && !!errors.repeatPassword
-                      }
-                      helperText={
-                        touched.repeatPassword && errors.repeatPassword
-                      }
-                    /> */}
                   </Box>
                 </Box>
                 <ButtonWithLoader

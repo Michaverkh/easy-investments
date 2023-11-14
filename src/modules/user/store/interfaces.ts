@@ -17,6 +17,8 @@ export interface IUserStore {
   authErrorMessage: string;
   login: (requestParams: IUserRequestDTO) => Promise<void>;
   registration: (requestParams: IUserRequestDTO) => Promise<void>;
+  logout: () => Promise<void>;
+  setAuth: (isAuth: boolean) => void;
 }
 
 export interface IUserAuthInitialValues extends IUserRequestDTO {

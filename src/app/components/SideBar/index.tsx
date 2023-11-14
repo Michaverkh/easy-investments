@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { FC } from "react";
 import { LIGHT1 } from "../../themes/colors";
 import PaidIcon from "@mui/icons-material/Paid";
@@ -7,38 +7,49 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import { RouterPath } from "../../../shared/router/enums";
 import { Link } from "react-router-dom";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import useStore from "../../../shared/hooks/useStore";
+import { observer } from "mobx-react-lite";
 
-const menu = {
-  marginBottom: "100px",
+const styles = {
+  menu: {
+    marginBottom: "100px",
+  },
+  menuItem: {
+    width: "30px",
+    height: "30px",
+  },
+  sideBar: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "82px",
+    position: "fixed",
+    padding: "16px",
+  },
+  logo: {
+    width: "50px",
+    height: "50px",
+    backgroundColor: LIGHT1,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "10px",
+    marginBottom: "100px",
+  },
 };
 
-const menuItem = {
-  width: "30px",
-  height: "30px",
-};
+const { menu, menuItem, sideBar, logo } = styles;
 
-const sideBar = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "82px",
-  position: "fixed",
-  padding: "16px",
-};
+const SideBarComponent: FC = () => {
+  const { userStore } = useStore();
+  const { isAuth, logout } = userStore;
 
-const logo = {
-  width: "50px",
-  height: "50px",
-  backgroundColor: LIGHT1,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "10px",
-  marginBottom: "100px",
-};
+  const handleLogout = async (): Promise<void> => {
+    await logout();
+  };
 
-export const SideBar: FC = () => {
   return (
     <Box sx={sideBar}>
       <Box sx={logo}>
@@ -71,13 +82,40 @@ export const SideBar: FC = () => {
           </Box>
         </Link>
       </Box>
-      <Box>
-        <LogoutIcon
+      {isAuth && (
+        <Box
           sx={{
-            fill: LIGHT1,
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-        />
-      </Box>
+        >
+          <Box
+            sx={{
+              width: "40px",
+              height: "40px",
+              backgroundColor: LIGHT1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "5px",
+              marginBottom: "16px",
+            }}
+          >
+            <AccountCircleIcon fontSize="large" />
+          </Box>
+          <Button variant="text" onClick={handleLogout}>
+            <LogoutIcon
+              sx={{
+                fill: LIGHT1,
+              }}
+            />
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };
+
+export const SideBar = observer(SideBarComponent);

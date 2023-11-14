@@ -8,6 +8,7 @@ import { ButtonWithLoader } from "../../../../../shared/components/ButtonWithLoa
 import { observer } from "mobx-react-lite";
 import { Navigate } from "react-router-dom";
 import { RouterPath } from "../../../../../shared/router/enums";
+import { PasswordInput } from "../../../../../shared/components/PasswordInput";
 
 const LoginFormComponent: FC = () => {
   const { userStore } = useStore();
@@ -56,17 +57,13 @@ const LoginFormComponent: FC = () => {
                     />
                   </Box>
                   <Box>
-                    <TextField
-                      id="password-id"
-                      label="пароль"
-                      variant="outlined"
-                      type="text"
-                      onChange={handleChange}
+                    <PasswordInput
                       value={values.password}
+                      label="пароль"
                       name="password"
-                      sx={{ width: "100%" }}
-                      error={!!touched.password && !!errors.password}
-                      helperText={touched.password && errors.password}
+                      onChange={handleChange}
+                      errorText={errors.password}
+                      isError={!!touched.password && !!errors.password}
                     />
                   </Box>
                 </Box>

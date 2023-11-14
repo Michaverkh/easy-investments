@@ -3,10 +3,13 @@ import useStore from "../../../shared/hooks/useStore";
 import { RouterPath } from "../../../shared/router/enums";
 import { Navigate } from "react-router-dom";
 import { PortfolioPage } from "../../../modules/portfolio/ui";
+import { observer } from "mobx-react-lite";
 
-export const MainPage: FC = () => {
+const MainPageComponent: FC = () => {
   const { userStore } = useStore();
   const { isAuth } = userStore;
+
+  // ToDo: Устранить эффект дергания компонентов
 
   return (
     <>
@@ -18,3 +21,5 @@ export const MainPage: FC = () => {
     </>
   );
 };
+
+export const MainPage = observer(MainPageComponent);

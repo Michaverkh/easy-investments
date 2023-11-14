@@ -51,6 +51,8 @@ export class UserStore implements IUserStore {
 
       login: action.bound,
       registration: action.bound,
+      logout: action.bound,
+      setAuth: action.bound,
     });
   }
 
@@ -101,24 +103,34 @@ export class UserStore implements IUserStore {
       >(`${EEndpoints.REGISTRATION}`, requestParams, {
         responseValidationSchema: userAuthResponseSchema,
       });
-
       const mappedResult = await userAuthMapper(result);
 
       if (mappedResult.token) {
         localStorage.setItem("token", mappedResult.token);
-        this._isAuth = true;
-        this._authErrorMessage = "";
-      } else {
-        this._isAuth = false;
-        this._authErrorMessage = EErrorMessages.USER_ALREADY_EXISTS;
+        runInAction(() => (this._isAuth = true));
+        runInAction(() => (this._authErrorMessage = ""));
+      }
+    } catch (err: any) {
+      switch (err.message) {
+        case EServerErrors.USER_ALREADY_EXISTS:
+          runInAction(
+            () => (this._authErrorMessage = EErrorMessages.USER_ALREADY_EXISTS)
+          );
+          return;
+        default:
+          console.log("AuthError", err.message);
       }
     } finally {
       this._loading = false;
     }
   }
 
-  async logout(requestParams: IUserRequestDTO): Promise<void> {
+  async logout(): Promise<void> {
     this._isAuth = false;
-    localStorage.removeItem("");
+    localStorage.removeItem("token");
+  }
+
+  setAuth(isAuth: boolean): void {
+    this._isAuth = isAuth;
   }
 }
