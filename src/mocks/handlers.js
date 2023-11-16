@@ -16,4 +16,8 @@ export const handlers = [
   rest.post(EEndpoints.REGISTRATION, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(authUserSuccess), ctx.delay(500));
   }),
+
+  rest.get(EEndpoints.CHECK_AUTH, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({}), ctx.delay(500));
+  }),
 ];

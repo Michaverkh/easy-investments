@@ -2,6 +2,7 @@ export enum EEndpoints {
   GET_ASSETS_INFO = "assetsTree/info",
   LOGIN = "login",
   REGISTRATION = "registration",
+  CHECK_AUTH = "refresh",
 }
 
 export enum EHttpMethods {

@@ -53,6 +53,7 @@ export class UserStore implements IUserStore {
       registration: action.bound,
       logout: action.bound,
       setAuth: action.bound,
+      checkAuth: action.bound,
     });
   }
 
@@ -128,6 +129,26 @@ export class UserStore implements IUserStore {
   async logout(): Promise<void> {
     this._isAuth = false;
     localStorage.removeItem("token");
+    this._user = {} as IUser;
+  }
+
+  async checkAuth(token: string) {
+    this._loading = true;
+
+    try {
+      await apiModule.getData(
+        `${EEndpoints.CHECK_AUTH}`,
+        null,
+        {},
+        { Authorization: `Bearer ${token}` }
+      );
+
+      runInAction(() => (this._isAuth = true));
+    } catch (err: any) {
+      console.log(err);
+    } finally {
+      this._loading = false;
+    }
   }
 
   setAuth(isAuth: boolean): void {

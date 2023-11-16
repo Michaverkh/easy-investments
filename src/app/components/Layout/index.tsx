@@ -31,15 +31,18 @@ const appShell = {
 
 export const Layout: FC = () => {
   const { userStore } = useStore();
-  const { setAuth } = userStore;
+  const { checkAuth } = userStore;
 
-  // check user authorization
+  /*
+    Проверка авторизован ли пользователь
+    если токен есть, то вызываем запрос
+  */
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-
-    console.log("token: " + token);
-
-    token && setAuth(true);
+    if (token) {
+      checkAuth(token);
+    }
   }, []);
 
   return (

@@ -19,6 +19,7 @@ export interface IUserStore {
   registration: (requestParams: IUserRequestDTO) => Promise<void>;
   logout: () => Promise<void>;
   setAuth: (isAuth: boolean) => void;
+  checkAuth: (token: string) => void;
 }
 
 export interface IUserAuthInitialValues extends IUserRequestDTO {
