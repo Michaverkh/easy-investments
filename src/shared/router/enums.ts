@@ -1,4 +1,5 @@
-export enum RoterPath {
+export enum RouterPath {
   PORTFOLIO = "/*",
   CALCULATOR = "/calculator",
+  AUTH = "/auth",
 }

@@ -47,10 +47,7 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
       return;
     }
 
-    console.log("saved: ", values);
-
     portfolioStore.addAsset(values);
-
     onClose();
   };
 
@@ -152,7 +149,3 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
     </Dialog>
   );
 };
-
-/*
-
-*/

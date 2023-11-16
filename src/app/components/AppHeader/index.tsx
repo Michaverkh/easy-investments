@@ -1,7 +1,5 @@
 import { Box, Typography, Divider } from "@mui/material";
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import { RoterPath } from "../../../shared/router/enums";
 
 export const AppHeader: FC = () => {
   return (

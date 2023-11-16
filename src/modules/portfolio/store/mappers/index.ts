@@ -2,12 +2,6 @@ import { IAssetsItemResponseDTO, IAssetsItemsResponseDTO } from "../dto";
 import { IAssetsItems, IAssetsItem } from "../interfaces";
 import { morphism, Schema } from "morphism";
 
-// const calculateRate = (asset: IAssetsItemResponseDTO): number => {
-//   if (!asset.parent) {
-
-//   }
-//  }
-
 const assetsItemMapper = (source: IAssetsItemResponseDTO[]): IAssetsItem[] => {
   type AssetsItemSchema = Schema<IAssetsItem, IAssetsItemResponseDTO>;
 

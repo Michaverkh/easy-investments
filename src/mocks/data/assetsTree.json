@@ -29,7 +29,8 @@
       "valueInPortfolio": 654564,
       "factualShare": 7,
       "targetShare": 8.5,
-      "parent": "акции"
+      "parent": "акции",
+      "paymentPerMonth": 300
     },
     {
       "type": "cathegory",
@@ -45,7 +46,8 @@
       "valueInPortfolio": 1561,
       "factualShare": 2,
       "targetShare": 3,
-      "parent": "облигации"
+      "parent": "облигации",
+      "paymentPerMonth": 300
     },
     {
       "type": "assets",

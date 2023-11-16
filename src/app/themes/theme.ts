@@ -51,6 +51,7 @@ export const theme = createTheme({
     h6: { fontSize: 16, fontWeight: "bold", color: DARK1 },
     body1: { fontSize: 14, fontWeight: "bold", color: DARK1 },
     body2: { fontSize: 12, color: LIGHT1 },
+    subtitle1: { fontSize: 12, color: FLAME1 },
   },
   components: {
     MuiTypography: {

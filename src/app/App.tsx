@@ -1,40 +1,10 @@
-import React from "react";
-import PortfolioPage from "../modules/portfolio/ui/index";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Box } from "@mui/material";
-import { AppHeader } from "./components/AppHeader";
-import { RoterPath } from "../shared/router/enums";
-import { CalculatorPage } from "../modules/calculator/ui";
-import { AppFooter } from "./components/AppFooter";
-import { DialogStandard } from "../modules/portfolio/ui/dialogs/AddAssetDialog";
-import { DialogSelector } from "../shared/components/Dialog/components/DialogSelector";
-
-const appWrapper = {
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-};
+import { BrowserRouter } from "react-router-dom";
+import { Layout } from "./components/Layout";
 
 export const App = () => {
   return (
     <BrowserRouter>
-      <Box sx={appWrapper}>
-        <AppHeader />
-        <Box
-          sx={{
-            flexGrow: "1",
-            padding: "16px",
-          }}
-        >
-          <Routes>
-            <Route path={RoterPath.PORTFOLIO} element={<PortfolioPage />} />
-            <Route path={RoterPath.CALCULATOR} element={<CalculatorPage />} />
-          </Routes>
-        </Box>
-        <AppFooter />
-        <DialogSelector />
-      </Box>
+      <Layout />
     </BrowserRouter>
   );
 };

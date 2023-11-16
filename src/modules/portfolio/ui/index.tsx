@@ -6,7 +6,7 @@ import { AssetsItem } from "./components/AssetsItem.tsx";
 import { getAssetsWithChildren } from "./utils/utils";
 import { MOUNTAIN2 } from "../../../app/themes/colors";
 
-const PortfolioPage: FC = () => {
+const PortfolioPageComponent: FC = () => {
   const { portfolioStore } = useStore();
   const { assetsTree, isLoading, isAssetsTreeUpdated } = portfolioStore;
 
@@ -30,85 +30,44 @@ const PortfolioPage: FC = () => {
   };
 
   return (
-    <Box sx={portfolioPage}>
-      <Box></Box>
-      <Box
-        sx={{
-          border: `5px solid	${MOUNTAIN2}`,
-          borderRadius: "20px",
-          padding: "16px",
-        }}
-      >
+    <>
+      <Box sx={portfolioPage}>
+        <Box></Box>
         <Box
           sx={{
-            "& > *:not(:last-child)": {
-              marginBottom: "10px",
-            },
+            border: `5px solid	${MOUNTAIN2}`,
+            borderRadius: "20px",
+            padding: "16px",
           }}
         >
-          {updatedAssets.map(
-            (asset) =>
-              !asset.parent && <AssetsItem key={asset.name} {...asset} />
-          )}
-        </Box>
-        {isLoading && (
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
+              "& > *:not(:last-child)": {
+                marginBottom: "10px",
+              },
             }}
           >
-            <CircularProgress />
+            {updatedAssets.map(
+              (asset) =>
+                !asset.parent && <AssetsItem key={asset.name} {...asset} />
+            )}
           </Box>
-        )}
-      </Box>
-    </Box>
-  );
-};
-
-export default observer(PortfolioPage);
-
-/*
-Старая реализация с общим редактированием
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "end",
-            marginBottom: "16px",
-          }}
-        >
-          {isEdit ? (
+          {isLoading && (
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "end",
-                "& > *:not(:last-child)": {
-                  marginRight: "16px",
-                },
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
               }}
             >
-              <Button
-                variant="contained"
-                color="info"
-                onClick={handleSaveChanges}
-              >
-                Сохранить
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleCancel}
-              >
-                Отменить
-              </Button>
+              <CircularProgress />
             </Box>
-          ) : (
-            <Button variant="contained" onClick={handleEdit}>
-              Редактировать
-            </Button>
           )}
         </Box>
-*/
+      </Box>
+    </>
+  );
+};
+
+export const PortfolioPage = observer(PortfolioPageComponent);
