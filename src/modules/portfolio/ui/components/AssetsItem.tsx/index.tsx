@@ -32,7 +32,7 @@ export const AssetsItem: FC<IProps> = ({
   children,
 }) => {
   const { portfolioStore } = useStore();
-  const { updateAsset } = portfolioStore;
+  const { updateAsset, removeAsset } = portfolioStore;
 
   const isAssets: boolean = type === EAssetsType.ASSETS;
   const theme = useTheme();
@@ -51,6 +51,10 @@ export const AssetsItem: FC<IProps> = ({
   const handleSubmit = (values: IAssetsItemValues) => {
     updateAsset(values);
     setIsEdit(false);
+  };
+
+  const handleDelete = async (): Promise<void> => {
+    await removeAsset(name);
   };
 
   const handleCancel = () => {
@@ -181,6 +185,7 @@ export const AssetsItem: FC<IProps> = ({
                       onClickEdit={handleEdit}
                       onClickSave={handleSubmit}
                       onClickCancel={handleCancel}
+                      onClickDelete={handleDelete}
                     />
                   ) : (
                     boxForRenderButton &&
@@ -190,6 +195,7 @@ export const AssetsItem: FC<IProps> = ({
                         onClickEdit={handleEdit}
                         onClickSave={handleSubmit}
                         onClickCancel={handleCancel}
+                        onClickDelete={handleDelete}
                       />,
                       boxForRenderButton
                     )

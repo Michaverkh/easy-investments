@@ -49,6 +49,7 @@ export class PortfolioStore implements IPortfolioStore {
       addAsset: action.bound,
       loadAssetsTree: action.bound,
       updateAsset: action.bound,
+      removeAsset: action.bound,
     });
   }
 
