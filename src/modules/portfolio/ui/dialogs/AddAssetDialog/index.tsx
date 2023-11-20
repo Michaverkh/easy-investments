@@ -42,10 +42,12 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
   const handleSubmit = (values: IAddAssetValues) => {
     setNameError(false);
 
-    if (portfolioStore.isNameAlreadyExisted(values.name)) {
-      setNameError(true);
-      return;
-    }
+    //ToDo: Перенести проверку на бек
+
+    // if (portfolioStore.isNameAlreadyExisted(values.name)) {
+    //   setNameError(true);
+    //   return;
+    // }
 
     portfolioStore.addAsset(values);
     onClose();

@@ -1,5 +1,5 @@
 {
-  "totalBalance": 1000000,
+  "totalBalance": 999951,
   "items": [
     {
       "type": "cathegory",
@@ -7,31 +7,6 @@
       "valueInPortfolio": 1000000,
       "factualShare": 36,
       "targetShare": 33.4
-    },
-    {
-      "type": "cathegory",
-      "name": "акции",
-      "valueInPortfolio": 849849,
-      "factualShare": 89,
-      "targetShare": 50,
-      "parent": "Фондовый рынок"
-    },
-    {
-      "type": "assets",
-      "name": "СБЕР",
-      "valueInPortfolio": 1561,
-      "factualShare": 2,
-      "targetShare": 3,
-      "parent": "акции"
-    },
-    {
-      "type": "assets",
-      "name": "apple",
-      "valueInPortfolio": 654564,
-      "factualShare": 7,
-      "targetShare": 8.5,
-      "parent": "акции",
-      "paymentPerMonth": 300
     },
     {
       "type": "cathegory",
@@ -90,16 +65,8 @@
     },
     {
       "type": "assets",
-      "name": "Bitcoin",
-      "valueInPortfolio": 82145,
-      "factualShare": 44,
-      "targetShare": 16,
-      "parent": "Криптовалюта"
-    },
-    {
-      "type": "assets",
       "name": "Etherium",
-      "valueInPortfolio": 156161,
+      "valueInPortfolio": 36133,
       "factualShare": 65,
       "targetShare": 0,
       "parent": "Криптовалюта"

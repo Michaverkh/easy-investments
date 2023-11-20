@@ -5,10 +5,12 @@ import { Box, CircularProgress } from "@mui/material";
 import { AssetsItem } from "./components/AssetsItem.tsx";
 import { getAssetsWithChildren } from "./utils/utils";
 import { MOUNTAIN2 } from "../../../app/themes/colors";
+import { BalanceWidget } from "./components/BalanceWidget";
 
 const PortfolioPageComponent: FC = () => {
   const { portfolioStore } = useStore();
-  const { assetsTree, isLoading, isAssetsTreeUpdated } = portfolioStore;
+  const { assetsTree, isLoading, isAssetsTreeUpdated, totalBalance } =
+    portfolioStore;
 
   useEffect(() => {
     async function getData() {
@@ -24,7 +26,7 @@ const PortfolioPageComponent: FC = () => {
 
   const portfolioPage = {
     display: "grid",
-    gridTemplateColumns: "1fr 3fr",
+    gridTemplateColumns: "200px auto",
     gap: "16px",
     height: "100%",
   };
@@ -32,7 +34,7 @@ const PortfolioPageComponent: FC = () => {
   return (
     <>
       <Box sx={portfolioPage}>
-        <Box></Box>
+        <BalanceWidget totalBalance={totalBalance} isLoading={isLoading} />
         <Box
           sx={{
             border: `5px solid	${MOUNTAIN2}`,

@@ -1,21 +1,18 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import {
-  EAssetsType,
   IAddAssetValues,
   IAssetsItem,
   IAssetsItemValues,
   IPortfolioStore,
 } from "./interfaces";
-import { apiModule } from "../../..";
-import { IAssetsItemsResponseDTO } from "./dto";
-import { EEndpoints } from "../../../shared/api/enums";
-import { assetsItemsResponseSchema } from "./validators";
-import { assetsItemsMapper } from "./mappers";
+import { PortfolioRepository } from "./repository";
 
 export class PortfolioStore implements IPortfolioStore {
   _assetsTree: IAssetsItem[] = [];
   _loading: boolean = false;
   _isAssetsTreeUpdated: boolean = false;
+  _totalBalance: number = 0;
+  _portfolioRepository: PortfolioRepository = {} as PortfolioRepository;
 
   get assetsTree() {
     return this._assetsTree;
@@ -29,41 +26,84 @@ export class PortfolioStore implements IPortfolioStore {
     return this._isAssetsTreeUpdated;
   }
 
+  get totalBalance() {
+    return this._totalBalance;
+  }
+
   constructor() {
+    this._portfolioRepository = new PortfolioRepository();
     makeObservable<
       IPortfolioStore,
-      "_assetsTree" | "_loading" | "_isAssetsTreeUpdated"
+      "_assetsTree" | "_loading" | "_isAssetsTreeUpdated" | "_totalBalance"
     >(this, {
       _assetsTree: observable,
       _loading: observable,
       _isAssetsTreeUpdated: observable,
+      _totalBalance: observable,
 
       assetsTree: computed,
       isLoading: computed,
       isAssetsTreeUpdated: computed,
+      totalBalance: computed,
 
-      addCategory: action.bound,
       addAsset: action.bound,
       loadAssetsTree: action.bound,
       updateAsset: action.bound,
-      isNameAlreadyExisted: action.bound,
     });
   }
 
   async loadAssetsTree(): Promise<void> {
     try {
       this._loading = true;
-      const result = await apiModule.getData<null, IAssetsItemsResponseDTO>(
-        `${EEndpoints.GET_ASSETS_INFO}`,
-        null,
-        { responseValidationSchema: assetsItemsResponseSchema }
-      );
-
-      this._assetsTree = await assetsItemsMapper(result);
+      const { totalBalance, items } =
+        await this._portfolioRepository.loadAssetsTree();
+      this._assetsTree = items;
+      this._totalBalance = totalBalance;
     } finally {
       this._loading = false;
     }
   }
+
+  async updateAsset(newAssetItem: IAssetsItemValues): Promise<void> {
+    try {
+      this._loading = true;
+      const { totalBalance, items } =
+        await this._portfolioRepository.updateAsset(newAssetItem);
+      this._assetsTree = items;
+      this._totalBalance = totalBalance;
+    } finally {
+      this._loading = false;
+    }
+  }
+
+  async addAsset(newAssetItem: IAddAssetValues): Promise<void> {
+    try {
+      this._loading = true;
+      const { totalBalance, items } = await this._portfolioRepository.addAsset(
+        newAssetItem
+      );
+      this._assetsTree = items;
+      this._totalBalance = totalBalance;
+    } finally {
+      this._loading = false;
+    }
+  }
+
+  async removeAsset(assetName: string): Promise<void> {
+    try {
+      this._loading = true;
+      const { totalBalance, items } =
+        await this._portfolioRepository.removeAsset(assetName);
+      this._assetsTree = items;
+      this._totalBalance = totalBalance;
+    } finally {
+      this._loading = false;
+    }
+  }
+}
+
+/*
+Старые методы обновления стора. Пригодятся при создании сервиса на беке
 
   updateAsset(assetItem: IAssetsItemValues): void {
     const { name, targetShare, valueInPortfolio } = assetItem;
@@ -103,6 +143,4 @@ export class PortfolioStore implements IPortfolioStore {
     this._assetsTree.push(asset);
     this._isAssetsTreeUpdated = !this._isAssetsTreeUpdated;
   }
-
-  addCategory() {}
-}
+*/

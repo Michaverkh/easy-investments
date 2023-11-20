@@ -18,16 +18,6 @@ import { useDialog } from "../../../../../shared/components/Dialog/hooks";
 import { AddAssetDialogPayload } from "../../dialogs/AddAssetDialog/interfaces";
 import { AssetsReadonlyParam } from "../AssetsReadonlyParam";
 
-/*
-  type: EAssetsType;
-  name: string;
-  valueInPortfolio: number;
-  factualShare: number;
-  targetShare: number;
-  paymentPerMonth?: number;
-  parent?: string;
-*/
-
 interface IProps extends IAssetsItem {
   children?: IProps[];
 }

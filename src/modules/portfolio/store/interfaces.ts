@@ -14,6 +14,11 @@ export interface IAssetsItem {
   parent?: string;
 }
 
+export interface IPortfolio {
+  totalBalance: number;
+  items: IAssetsItem[];
+}
+
 export interface IAssetsItemValues
   extends Omit<
     Required<IAssetsItem>,
@@ -28,11 +33,11 @@ export interface IPortfolioStore {
   assetsTree: IAssetsItem[];
   isLoading: boolean;
   isAssetsTreeUpdated: boolean;
-  addCategory: () => void;
-  addAsset: (assetItem: IAddAssetValues) => void;
+  totalBalance: number;
+  addAsset: (newAssetItem: IAddAssetValues) => Promise<void>;
   loadAssetsTree: () => Promise<void>;
-  updateAsset: (assetItem: IAssetsItemValues) => void;
-  isNameAlreadyExisted: (name: string) => boolean;
+  updateAsset: (newAssetItem: IAssetsItemValues) => Promise<void>;
+  removeAsset: (assetName: string) => Promise<void>;
 }
 
 export interface IAddAssetValues extends IAssetsItemValues {

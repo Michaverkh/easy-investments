@@ -1,5 +1,5 @@
 import { IAssetsItemResponseDTO, IAssetsItemsResponseDTO } from "../dto";
-import { IAssetsItems, IAssetsItem } from "../interfaces";
+import { IAssetsItem, IPortfolio } from "../interfaces";
 import { morphism, Schema } from "morphism";
 
 const assetsItemMapper = (source: IAssetsItemResponseDTO[]): IAssetsItem[] => {
@@ -21,14 +21,15 @@ const assetsItemMapper = (source: IAssetsItemResponseDTO[]): IAssetsItem[] => {
 
 export const assetsItemsMapper = async (
   source: IAssetsItemsResponseDTO
-): Promise<IAssetsItem[]> => {
-  type AssetsItemsSchema = Schema<IAssetsItems, IAssetsItemsResponseDTO>;
+): Promise<IPortfolio> => {
+  type AssetsItemsSchema = Schema<IPortfolio, IAssetsItemsResponseDTO>;
 
   const schema: AssetsItemsSchema = {
+    totalBalance: "totalBalance",
     items: (value) => assetsItemMapper(value.items),
   };
 
   return await new Promise((res) =>
-    res(morphism<AssetsItemsSchema>(schema, source).items)
+    res(morphism<AssetsItemsSchema>(schema, source))
   );
 };

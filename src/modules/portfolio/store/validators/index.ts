@@ -13,4 +13,5 @@ export const assetsItemResponseSchema = object({
 
 export const assetsItemsResponseSchema = object({
   items: array().of(assetsItemResponseSchema).required(),
+  totalBalance: number().required(),
 });

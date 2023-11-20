@@ -1,5 +1,9 @@
 export enum EEndpoints {
-  GET_ASSETS_INFO = "assetsTree/info",
+  GET_ASSETS_INFO = "assets/info",
+  UPDATE_ASSET = "assets/update",
+  ADD_ASSET = "assets/add",
+  REMOVE_ASSET = "assets/remove",
+
   LOGIN = "login",
   REGISTRATION = "registration",
   CHECK_AUTH = "refresh",
