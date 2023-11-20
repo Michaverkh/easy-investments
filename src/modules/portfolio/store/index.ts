@@ -1,11 +1,14 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import {
+  EAssetsType,
   IAddAssetValues,
+  IAssetForTopUp,
   IAssetsItem,
   IAssetsItemValues,
   IPortfolioStore,
 } from "./interfaces";
 import { PortfolioRepository } from "./repository";
+import { IOption } from "../../../shared/interfaces";
 
 export class PortfolioStore implements IPortfolioStore {
   _assetsTree: IAssetsItem[] = [];
@@ -50,6 +53,7 @@ export class PortfolioStore implements IPortfolioStore {
       loadAssetsTree: action.bound,
       updateAsset: action.bound,
       removeAsset: action.bound,
+      getAssetsForTopUp: action.bound,
     });
   }
 
@@ -100,6 +104,24 @@ export class PortfolioStore implements IPortfolioStore {
     } finally {
       this._loading = false;
     }
+  }
+
+  getAssetsForTopUp(): IAssetForTopUp {
+    const assetItems: IOption[] = [];
+    const initialValues: Record<string, number> = {};
+
+    this._assetsTree.forEach((asset) => {
+      if (asset.type === EAssetsType.ASSETS) {
+        assetItems.push({
+          name: asset.name,
+          value: asset.paymentPerMonth || 0,
+        });
+
+        initialValues[asset.name] = asset.paymentPerMonth || 0;
+      }
+    });
+
+    return { initialValues, assetItems };
   }
 }
 

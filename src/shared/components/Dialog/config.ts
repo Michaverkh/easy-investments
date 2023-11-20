@@ -1,4 +1,5 @@
 import { DialogStandard } from "../../../modules/portfolio/ui/dialogs/AddAssetDialog";
+import { TopUpPortfolioDialog } from "../../../modules/portfolio/ui/dialogs/TopUpPortfolioDialog";
 import { IDialogConfig } from "./interfaces";
 
 export const dialogConfig: IDialogConfig[] = [
@@ -6,14 +7,14 @@ export const dialogConfig: IDialogConfig[] = [
     name: "addAsset",
     component: DialogStandard,
     onEnter: () => {
-      console.log("addAsset dialog initialized");
+      // console.log("addAsset dialog initialized");
     },
   },
   {
-    name: "showInfo",
-    component: DialogStandard,
+    name: "topUpPortfolio",
+    component: TopUpPortfolioDialog,
     onEnter: () => {
-      console.log("showInfo dialog initialized");
+      // console.log("topUpPortfolio dialog initialized");
     },
   },
 ];

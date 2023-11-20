@@ -15,7 +15,7 @@ import { assetsFormSchema } from "../../validationSchemas";
 import useStore from "../../../../../shared/hooks/useStore";
 import { createPortal } from "react-dom";
 import { useDialog } from "../../../../../shared/components/Dialog/hooks";
-import { AddAssetDialogPayload } from "../../dialogs/AddAssetDialog/interfaces";
+import { AddAssetDialogPayload } from "../../dialogs/interfaces";
 import { AssetsReadonlyParam } from "../AssetsReadonlyParam";
 
 interface IProps extends IAssetsItem {
@@ -55,6 +55,7 @@ export const AssetsItem: FC<IProps> = ({
 
   const handleDelete = async (): Promise<void> => {
     await removeAsset(name);
+    setIsEdit(false);
   };
 
   const handleCancel = () => {

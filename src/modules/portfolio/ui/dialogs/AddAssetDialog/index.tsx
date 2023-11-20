@@ -17,7 +17,7 @@ import { FC, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { IDialogComponentProps } from "../../../../../shared/components/Dialog/interfaces";
 import { useDialog } from "../../../../../shared/components/Dialog/hooks";
-import { AddAssetDialogPayload } from "./interfaces";
+import { AddAssetDialogPayload } from "../interfaces";
 import { Formik } from "formik";
 import useStore from "../../../../../shared/hooks/useStore";
 import { IAddAssetValues } from "../../../store/interfaces";

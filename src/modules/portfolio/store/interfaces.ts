@@ -1,3 +1,5 @@
+import { IOption } from "../../../shared/interfaces";
+import { ValidationError } from "./../../../shared/globalErrorCollector/errors/ValidationError";
 export enum EAssetsType {
   CATHEGORY = "cathegory",
   ASSETS = "assets",
@@ -38,9 +40,15 @@ export interface IPortfolioStore {
   loadAssetsTree: () => Promise<void>;
   updateAsset: (newAssetItem: IAssetsItemValues) => Promise<void>;
   removeAsset: (assetName: string) => Promise<void>;
+  getAssetsForTopUp(): IAssetForTopUp;
 }
 
 export interface IAddAssetValues extends IAssetsItemValues {
   isAsset: boolean;
   parent: string | undefined;
+}
+
+export interface IAssetForTopUp {
+  initialValues: Record<string, number>;
+  assetItems: IOption[];
 }

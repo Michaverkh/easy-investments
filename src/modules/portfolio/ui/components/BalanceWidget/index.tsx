@@ -1,6 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { FC } from "react";
 import { MOUNTAIN2 } from "../../../../../app/themes/colors";
+import { useDialog } from "../../../../../shared/components/Dialog/hooks";
 
 interface IProps {
   totalBalance: number;
@@ -8,6 +9,8 @@ interface IProps {
 }
 
 export const BalanceWidget: FC<IProps> = ({ isLoading, totalBalance }) => {
+  const dialog = useDialog();
+  //topUpPortfolio
   return (
     <Box
       sx={{
@@ -27,6 +30,7 @@ export const BalanceWidget: FC<IProps> = ({ isLoading, totalBalance }) => {
 
       <Button
         variant="contained"
+        onClick={() => dialog.setState("topUpPortfolio", {})}
         sx={{
           width: "100%",
         }}
