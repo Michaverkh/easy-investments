@@ -4,6 +4,7 @@ import { EHttpMethods } from "./enums";
 import { ValidationError } from "../globalErrorCollector/errors/ValidationError";
 import { ValidationError as YupValidationError } from "yup";
 import { ServerError } from "../globalErrorCollector/errors/ServerError";
+import { a } from "msw/lib/glossary-de6278a9";
 
 class ApiService {
   private connections: IConnection[] = [];
@@ -127,7 +128,7 @@ class ApiService {
     url: string,
     requestObj: P | null,
     options: IFetchDataOptions<P, R>,
-    headers?: HeadersInit
+    headers?: Record<string, string>
   ): Promise<R> {
     //прерываем предыдущие запросы
     // this.cancelRequest(url, options.tag);
@@ -147,7 +148,7 @@ class ApiService {
     url: string,
     requestObj: P | null,
     options: IFetchDataOptions<P, R>,
-    headers?: HeadersInit
+    headers?: Record<string, string>
   ): Promise<R> {
     this.cancelRequest(url, options.tag);
 
@@ -167,7 +168,7 @@ class ApiService {
     path: string,
     requestObj: P | null = null,
     options: IFetchDataOptions<P, R>,
-    headers?: HeadersInit
+    headers?: Record<string, string>
   ): Promise<R> {
     // Валидируем requestObj если передали
     if (options.requestValidationSchema && requestObj) {
@@ -182,6 +183,16 @@ class ApiService {
     const timeoutId = setTimeout(() => {
       this.cancelRequest(url, options.tag);
     }, this.timeout);
+
+    const authToken = localStorage.getItem("token");
+
+    if (!headers) {
+      headers = {};
+    }
+
+    if (authToken) {
+      headers.Authorization = authToken;
+    }
 
     return fetch(url, {
       method,

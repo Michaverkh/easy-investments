@@ -9,8 +9,6 @@ const MainPageComponent: FC = () => {
   const { userStore } = useStore();
   const { isAuth, isLoading } = userStore;
 
-  console.log("isLoading", isLoading);
-
   if (isLoading) {
     return (
       <Box

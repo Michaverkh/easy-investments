@@ -26,9 +26,9 @@ export const theme = createTheme({
     secondary: {
       main: SKY1,
     },
-    info: {
-      main: SKY2,
-    },
+    // info: {
+    //   main: SKY2,
+    // },
   },
 
   typography: {

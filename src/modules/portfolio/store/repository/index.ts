@@ -49,4 +49,17 @@ export class PortfolioRepository {
 
     return await assetsItemsMapper(result);
   }
+
+  public async topUpPortfolio(
+    assetsValuesDelta: Record<string, number>
+  ): Promise<IPortfolio> {
+    const result = await apiModule.postData<
+      Record<string, number>,
+      IAssetsItemsResponseDTO
+    >(`${EEndpoints.TOP_UP_PORTFOLIO}`, assetsValuesDelta, {
+      responseValidationSchema: assetsItemsResponseSchema,
+    });
+
+    return await assetsItemsMapper(result);
+  }
 }

@@ -41,6 +41,7 @@ export interface IPortfolioStore {
   updateAsset: (newAssetItem: IAssetsItemValues) => Promise<void>;
   removeAsset: (assetName: string) => Promise<void>;
   getAssetsForTopUp(): IAssetForTopUp;
+  topUpPortfolio: (assetsValuesDelta: Record<string, number>) => Promise<void>;
 }
 
 export interface IAddAssetValues extends IAssetsItemValues {

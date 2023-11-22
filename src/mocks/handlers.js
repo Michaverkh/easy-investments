@@ -19,6 +19,9 @@ export const handlers = [
   rest.get(EEndpoints.REMOVE_ASSET, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(assetsTreeUpdated), ctx.delay(500));
   }),
+  rest.post(EEndpoints.TOP_UP_PORTFOLIO, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(assetsTreeUpdated), ctx.delay(500));
+  }),
 
   // user service
   rest.post(EEndpoints.LOGIN, (req, res, ctx) => {

@@ -54,6 +54,7 @@ export class PortfolioStore implements IPortfolioStore {
       updateAsset: action.bound,
       removeAsset: action.bound,
       getAssetsForTopUp: action.bound,
+      topUpPortfolio: action.bound,
     });
   }
 
@@ -122,6 +123,20 @@ export class PortfolioStore implements IPortfolioStore {
     });
 
     return { initialValues, assetItems };
+  }
+
+  async topUpPortfolio(
+    assetsValuesDelta: Record<string, number>
+  ): Promise<void> {
+    try {
+      this._loading = true;
+      const { totalBalance, items } =
+        await this._portfolioRepository.topUpPortfolio(assetsValuesDelta);
+      this._assetsTree = items;
+      this._totalBalance = totalBalance;
+    } finally {
+      this._loading = false;
+    }
   }
 }
 

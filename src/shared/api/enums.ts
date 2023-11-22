@@ -3,6 +3,7 @@ export enum EEndpoints {
   UPDATE_ASSET = "assets/update",
   ADD_ASSET = "assets/add",
   REMOVE_ASSET = "assets/remove",
+  TOP_UP_PORTFOLIO = "assets/top-up",
 
   LOGIN = "login",
   REGISTRATION = "registration",

@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom";
 import {
   Alert,
   Box,
@@ -7,38 +6,44 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
   IconButton,
-  Switch,
   TextField,
-  Typography,
 } from "@mui/material";
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { IDialogComponentProps } from "../../../../../shared/components/Dialog/interfaces";
-import { useDialog } from "../../../../../shared/components/Dialog/hooks";
-import { AddAssetDialogPayload, TopUpPortfolioValues } from "../interfaces";
 import { Formik } from "formik";
 import useStore from "../../../../../shared/hooks/useStore";
+import { getTopUpPortfolioFormSchema } from "./validationSchema";
+import { observer } from "mobx-react-lite";
 
-export const TopUpPortfolioDialog: FC<IDialogComponentProps> = ({
+export const TopUpPortfolioDialogComponent: FC<IDialogComponentProps> = ({
   open,
   onClose,
 }) => {
-  const dialog = useDialog();
-
   const { portfolioStore } = useStore();
-  const { assetsTree, getAssetsForTopUp } = portfolioStore;
+  const { assetsTree, getAssetsForTopUp, topUpPortfolio } = portfolioStore;
+
+  const [serverError, setServerError] = useState<boolean>(false);
+
+  const header = useRef<HTMLElement | null>();
 
   const { initialValues, assetItems } = useMemo(
     () => getAssetsForTopUp(),
     [assetsTree]
   );
 
-  const handleSubmit = (values: Record<string, number>) => {
-    console.log("values", values);
+  const validationSchema = getTopUpPortfolioFormSchema(initialValues);
 
-    // onClose();
+  const handleSubmit = async (values: Record<string, number>) => {
+    // console.log("values", values);
+    try {
+      await topUpPortfolio(values);
+      onClose();
+    } catch (err) {
+      setServerError(true);
+      header.current?.scrollIntoView();
+    }
   };
 
   return (
@@ -59,8 +64,12 @@ export const TopUpPortfolioDialog: FC<IDialogComponentProps> = ({
         <CloseIcon />
       </IconButton>
       <DialogContent dividers>
-        <Formik onSubmit={handleSubmit} initialValues={initialValues}>
-          {({ values, errors, handleChange, handleSubmit }) => {
+        <Formik
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+        >
+          {({ values, errors, handleChange, handleSubmit, touched }) => {
             return (
               <form onSubmit={handleSubmit} id="form1">
                 <Box
@@ -70,23 +79,34 @@ export const TopUpPortfolioDialog: FC<IDialogComponentProps> = ({
                     },
                   }}
                 >
-                  {true && <Alert severity="error">Кастомная ошибка</Alert>}
                   <Alert severity="info">
-                    По умолчанию даны рекомендованные значения к пополнению
-                    портфеля. Вы можете отредактировать их при желании.
+                    {/*@ts-ignore */}
+                    <span ref={header}>
+                      По умолчанию даны рекомендованные значения к пополнению
+                      портфеля. Вы можете отредактировать их при желании.
+                    </span>
                   </Alert>
+                  {serverError && (
+                    <Alert severity="error">
+                      Что-то пошло не так. Закройте окно и повторите попытку
+                      позднее
+                    </Alert>
+                  )}
                   {assetItems.map((asset) => {
                     return (
                       <Box>
                         <TextField
+                          key={asset.name}
                           id={`${asset.name}-id`}
                           label={asset.name}
                           variant="outlined"
                           type="number"
                           onChange={handleChange}
-                          value={values[asset.value]}
+                          value={values[asset.name]}
                           name={asset.name}
                           sx={{ width: "100%" }}
+                          error={!!touched[asset.name] && !!errors[asset.name]}
+                          helperText={touched[asset.name] && errors[asset.name]}
                         />
                       </Box>
                     );
@@ -105,3 +125,5 @@ export const TopUpPortfolioDialog: FC<IDialogComponentProps> = ({
     </Dialog>
   );
 };
+
+export const TopUpPortfolioDialog = observer(TopUpPortfolioDialogComponent);
