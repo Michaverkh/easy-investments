@@ -41,8 +41,6 @@ export const AssetsParam: FC<IProps> = ({
     },
   };
 
-  // const inputStyles = {};
-
   return (
     <Box
       sx={{

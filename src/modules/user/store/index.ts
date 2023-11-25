@@ -6,18 +6,17 @@ import {
   runInAction,
 } from "mobx";
 import { IUser, IUserStore } from "./interfaces";
-import { apiModule } from "../../..";
-import { EEndpoints, EServerErrors } from "../../../shared/api/enums";
-import { IUserAuthResponseDTO, IUserRequestDTO } from "./dto";
-import { userAuthResponseSchema } from "./validators";
-import { userAuthMapper } from "./mappers";
+import { EServerErrors } from "../../../shared/api/enums";
+import { IUserRequestDTO } from "./dto";
 import { EErrorMessages } from "../../../shared/globalErrorCollector/constants";
+import { UserRepository } from "./repository";
 
 export class UserStore implements IUserStore {
   _loading: boolean = false;
   _isAuth: boolean = false;
   _user = {} as IUser;
   _authErrorMessage: string = "";
+  _userRepository: UserRepository = {} as UserRepository;
 
   get isLoading() {
     return this._loading;
@@ -36,6 +35,7 @@ export class UserStore implements IUserStore {
   }
 
   constructor() {
+    this._userRepository = new UserRepository();
     makeObservable<
       IUserStore,
       "_loading" | "_isAuth" | "_user" | "_authErrorMessage"
@@ -61,16 +61,10 @@ export class UserStore implements IUserStore {
     try {
       this._loading = true;
 
-      const result = await apiModule.postData<
-        IUserRequestDTO,
-        IUserAuthResponseDTO
-      >(`${EEndpoints.LOGIN}`, requestParams, {
-        responseValidationSchema: userAuthResponseSchema,
-      });
-      const mappedResult = await userAuthMapper(result);
+      const result = await this._userRepository.login(requestParams);
 
-      if (mappedResult.token) {
-        localStorage.setItem("token", mappedResult.token);
+      if (result.token) {
+        localStorage.setItem("token", result.token);
         runInAction(() => (this._isAuth = true));
         runInAction(() => (this._authErrorMessage = ""));
       }
@@ -98,16 +92,10 @@ export class UserStore implements IUserStore {
     try {
       this._loading = true;
 
-      const result = await apiModule.postData<
-        IUserRequestDTO,
-        IUserAuthResponseDTO
-      >(`${EEndpoints.REGISTRATION}`, requestParams, {
-        responseValidationSchema: userAuthResponseSchema,
-      });
-      const mappedResult = await userAuthMapper(result);
+      const result = await this._userRepository.registration(requestParams);
 
-      if (mappedResult.token) {
-        localStorage.setItem("token", mappedResult.token);
+      if (result.token) {
+        localStorage.setItem("token", result.token);
         runInAction(() => (this._isAuth = true));
         runInAction(() => (this._authErrorMessage = ""));
       }
@@ -136,12 +124,7 @@ export class UserStore implements IUserStore {
     this._loading = true;
 
     try {
-      await apiModule.getData(
-        `${EEndpoints.CHECK_AUTH}`,
-        null,
-        {},
-        { Authorization: `Bearer ${token}` }
-      );
+      await this._userRepository.checkAuth(token);
 
       runInAction(() => (this._isAuth = true));
     } catch (err: any) {

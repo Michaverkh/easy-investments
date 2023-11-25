@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import React, { FC } from "react";
-import { LIGHT1 } from "../../themes/colors";
+import { DARK1, LIGHT1 } from "../../themes/colors";
 import PaidIcon from "@mui/icons-material/Paid";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -25,8 +25,10 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     width: "82px",
-    position: "fixed",
+    height: "100vh",
     padding: "16px",
+    position: "fixed",
+    backgroundColor: DARK1,
   },
   logo: {
     width: "50px",

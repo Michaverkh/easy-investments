@@ -11,22 +11,11 @@ import { SideBar } from "../SideBar";
 import useStore from "../../../shared/hooks/useStore";
 
 const appWrapper = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
   backgroundColor: LIGHT1,
-  borderRadius: "30px",
-  flexGrow: "1",
   marginLeft: "82px",
-};
-
-const appShell = {
-  display: "flex",
-  justifyContent: "space-between",
+  padding: "16px",
+  overflowX: "scroll",
   minHeight: "100vh",
-  padding: "16px 16px 16px 0",
-  backgroundColor: DARK1,
-  position: "relative",
 };
 
 export const Layout: FC = () => {
@@ -46,13 +35,12 @@ export const Layout: FC = () => {
   }, []);
 
   return (
-    <Box sx={appShell}>
+    <>
       <SideBar />
       <Box sx={appWrapper}>
         <Box
           sx={{
             flexGrow: "1",
-            padding: "16px",
           }}
         >
           <Routes>
@@ -63,6 +51,6 @@ export const Layout: FC = () => {
         </Box>
         <DialogSelector />
       </Box>
-    </Box>
+    </>
   );
 };

@@ -191,7 +191,7 @@ class ApiService {
     }
 
     if (authToken) {
-      headers.Authorization = authToken;
+      headers.Authorization = `Bearer ${authToken}`;
     }
 
     return fetch(url, {

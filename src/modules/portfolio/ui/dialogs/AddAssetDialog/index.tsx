@@ -1,4 +1,3 @@
-import { createPortal } from "react-dom";
 import {
   Alert,
   Box,
@@ -11,9 +10,8 @@ import {
   IconButton,
   Switch,
   TextField,
-  Typography,
 } from "@mui/material";
-import { FC, useState } from "react";
+import { FC } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { IDialogComponentProps } from "../../../../../shared/components/Dialog/interfaces";
 import { useDialog } from "../../../../../shared/components/Dialog/hooks";
@@ -21,15 +19,15 @@ import { AddAssetDialogPayload } from "../interfaces";
 import { Formik } from "formik";
 import useStore from "../../../../../shared/hooks/useStore";
 import { IAddAssetValues } from "../../../store/interfaces";
+import { observer } from "mobx-react-lite";
 
-export const DialogStandard: FC<IDialogComponentProps> = ({
+const DialogStandardComponent: FC<IDialogComponentProps> = ({
   open,
   onClose,
 }) => {
   const dialog = useDialog();
   const { parentName } = dialog.getState()?.payload as AddAssetDialogPayload;
   const { portfolioStore } = useStore();
-  const [isNameError, setNameError] = useState<boolean>(false);
 
   const addAssetInitialValues: IAddAssetValues = {
     name: "",
@@ -39,18 +37,10 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
     targetShare: 0,
   };
 
-  const handleSubmit = (values: IAddAssetValues) => {
-    setNameError(false);
+  const handleSubmit = async (values: IAddAssetValues) => {
+    await portfolioStore.addAsset(values);
 
-    //ToDo: Перенести проверку на бек
-
-    // if (portfolioStore.isNameAlreadyExisted(values.name)) {
-    //   setNameError(true);
-    //   return;
-    // }
-
-    portfolioStore.addAsset(values);
-    onClose();
+    !portfolioStore.portfolioErrorMessage && onClose();
   };
 
   return (
@@ -82,10 +72,9 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
                     },
                   }}
                 >
-                  {isNameError && (
+                  {portfolioStore.portfolioErrorMessage && (
                     <Alert severity="error">
-                      {values.isAsset ? "Актив" : "Категория"} с данным именем
-                      уже существует
+                      {portfolioStore.portfolioErrorMessage}
                     </Alert>
                   )}
                   <FormControlLabel
@@ -151,3 +140,5 @@ export const DialogStandard: FC<IDialogComponentProps> = ({
     </Dialog>
   );
 };
+
+export const DialogStandard = observer(DialogStandardComponent);

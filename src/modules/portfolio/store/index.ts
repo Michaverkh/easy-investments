@@ -1,4 +1,10 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+  action,
+  computed,
+  makeObservable,
+  observable,
+  runInAction,
+} from "mobx";
 import {
   EAssetsType,
   IAddAssetValues,
@@ -9,6 +15,8 @@ import {
 } from "./interfaces";
 import { PortfolioRepository } from "./repository";
 import { IOption } from "../../../shared/interfaces";
+import { EServerErrors } from "../../../shared/api/enums";
+import { EErrorMessages } from "../../../shared/globalErrorCollector/constants";
 
 export class PortfolioStore implements IPortfolioStore {
   _assetsTree: IAssetsItem[] = [];
@@ -16,6 +24,7 @@ export class PortfolioStore implements IPortfolioStore {
   _isAssetsTreeUpdated: boolean = false;
   _totalBalance: number = 0;
   _portfolioRepository: PortfolioRepository = {} as PortfolioRepository;
+  _portfolioErrorMessage: string = "";
 
   get assetsTree() {
     return this._assetsTree;
@@ -33,21 +42,31 @@ export class PortfolioStore implements IPortfolioStore {
     return this._totalBalance;
   }
 
+  get portfolioErrorMessage() {
+    return this._portfolioErrorMessage;
+  }
+
   constructor() {
     this._portfolioRepository = new PortfolioRepository();
     makeObservable<
       IPortfolioStore,
-      "_assetsTree" | "_loading" | "_isAssetsTreeUpdated" | "_totalBalance"
+      | "_assetsTree"
+      | "_loading"
+      | "_isAssetsTreeUpdated"
+      | "_totalBalance"
+      | "_portfolioErrorMessage"
     >(this, {
       _assetsTree: observable,
       _loading: observable,
       _isAssetsTreeUpdated: observable,
       _totalBalance: observable,
+      _portfolioErrorMessage: observable,
 
       assetsTree: computed,
       isLoading: computed,
       isAssetsTreeUpdated: computed,
       totalBalance: computed,
+      portfolioErrorMessage: computed,
 
       addAsset: action.bound,
       loadAssetsTree: action.bound,
@@ -65,6 +84,8 @@ export class PortfolioStore implements IPortfolioStore {
         await this._portfolioRepository.loadAssetsTree();
       this._assetsTree = items;
       this._totalBalance = totalBalance;
+    } catch (err: any) {
+      console.log("AssetError", err.message);
     } finally {
       this._loading = false;
     }
@@ -77,6 +98,8 @@ export class PortfolioStore implements IPortfolioStore {
         await this._portfolioRepository.updateAsset(newAssetItem);
       this._assetsTree = items;
       this._totalBalance = totalBalance;
+    } catch (err: any) {
+      console.log("AssetError", err.message);
     } finally {
       this._loading = false;
     }
@@ -90,6 +113,18 @@ export class PortfolioStore implements IPortfolioStore {
       );
       this._assetsTree = items;
       this._totalBalance = totalBalance;
+    } catch (err: any) {
+      switch (err.message) {
+        case EServerErrors.ASSET_ALREADY_EXISTS:
+          runInAction(
+            () =>
+              (this._portfolioErrorMessage =
+                EErrorMessages.ASSET_ALREADY_EXISTS)
+          );
+          return;
+        default:
+          console.log("AssetError", err.message);
+      }
     } finally {
       this._loading = false;
     }
@@ -102,6 +137,8 @@ export class PortfolioStore implements IPortfolioStore {
         await this._portfolioRepository.removeAsset(assetName);
       this._assetsTree = items;
       this._totalBalance = totalBalance;
+    } catch (err: any) {
+      console.log("AssetError", err.message);
     } finally {
       this._loading = false;
     }
@@ -134,6 +171,8 @@ export class PortfolioStore implements IPortfolioStore {
         await this._portfolioRepository.topUpPortfolio(assetsValuesDelta);
       this._assetsTree = items;
       this._totalBalance = totalBalance;
+    } catch (err: any) {
+      console.log("AssetError", err.message);
     } finally {
       this._loading = false;
     }

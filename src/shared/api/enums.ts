@@ -18,7 +18,11 @@ export enum EHttpMethods {
 }
 
 export enum EServerErrors {
+  //User service
   INCORRECT_PASSWORD = "501",
   INCORRECT_EMAIL = "502",
   USER_ALREADY_EXISTS = "503",
+
+  //Portfolio service
+  ASSET_ALREADY_EXISTS = "504",
 }

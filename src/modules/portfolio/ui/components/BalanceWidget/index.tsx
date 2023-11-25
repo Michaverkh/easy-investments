@@ -10,7 +10,7 @@ interface IProps {
 
 export const BalanceWidget: FC<IProps> = ({ isLoading, totalBalance }) => {
   const dialog = useDialog();
-  //topUpPortfolio
+
   return (
     <Box
       sx={{

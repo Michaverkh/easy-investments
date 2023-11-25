@@ -1,5 +1,4 @@
 import { IOption } from "../../../shared/interfaces";
-import { ValidationError } from "./../../../shared/globalErrorCollector/errors/ValidationError";
 export enum EAssetsType {
   CATHEGORY = "cathegory",
   ASSETS = "assets",
@@ -36,6 +35,7 @@ export interface IPortfolioStore {
   isLoading: boolean;
   isAssetsTreeUpdated: boolean;
   totalBalance: number;
+  portfolioErrorMessage: string;
   addAsset: (newAssetItem: IAddAssetValues) => Promise<void>;
   loadAssetsTree: () => Promise<void>;
   updateAsset: (newAssetItem: IAssetsItemValues) => Promise<void>;
